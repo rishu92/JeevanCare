@@ -27,6 +27,7 @@ JeevanCare is a web-based healthcare project designed to connect patients and do
 
 ## 📁 Project Structure
 
+```text
 JeevanCare/
 ├── assets/
 ├── backend/
@@ -61,7 +62,7 @@ JeevanCare/
 ├── package.json
 ├── package-lock.json
 └── README.md
-
+```
 
 ## ⚙️ Setup
 
