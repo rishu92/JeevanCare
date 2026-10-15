@@ -1,22 +1,62 @@
 # JeevanCare 🏥
 
-**A Healthcare Consultation Platform**
+### A Healthcare Consultation Platform
 
-JeevanCare is a web-based healthcare project designed to connect patients and doctors through a simple and accessible interface. It includes separate pages for patients, doctors, and administrators.
+JeevanCare is a web-based healthcare project designed to provide a platform for patients and doctors to interact through a simple and accessible interface. The project includes dedicated interfaces for patients, doctors, and administrators.
+
+---
+
+## 📸 Screenshots
+
+### Homepage
+![JeevanCare Homepage](screenshots/homepage.png)
+
+### Patient Dashboard
+![Patient Dashboard](screenshots/patient-dashboard.png)
+
+### Doctor Listing
+![Doctor Listing](screenshots/doctors.png)
+
+### Doctor Dashboard
+![Doctor Dashboard](screenshots/doctor-dashboard.png)
+
+### Admin Panel
+![Admin Panel](screenshots/admin-panel.png)
+
+### Login Page
+![Login Page](screenshots/login.png)
+
+### Registration Page
+![Registration Page](screenshots/register.png)
+
+### Doctor Documents
+![Doctor Documents](screenshots/doctor-documents.png)
+
+### Chat Interface
+![Chat Interface](screenshots/chat.png)
+
+### Emergency Assistance
+![Emergency Assistance](screenshots/emergency.png)
+
+### AI Assistant
+![AI Assistant](screenshots/ai-assistant.png)
+
+---
 
 ## ✨ Features
 
 - **User Authentication:** Registration, login, and OTP verification interface.
-- **Patient Dashboard:** Access patient profile and dashboard pages.
-- **Doctor Profiles:** Browse doctor information and profiles.
-- **Doctor Dashboard:** Dedicated interface for doctors.
-- **Doctor Document Verification:** Support for doctor document submission and administrative review.
-- **Consultation Management:** Consultation request workflow for patients and doctors.
-- **Chat Interface:** Dedicated chat interface.
-- **Emergency Assistance:** An emergency information and assistance page.
-- **AI Assistant:** An interface for AI-assisted guidance.
+- **Patient Dashboard:** Dedicated dashboard and profile pages for patients.
+- **Doctor Profiles:** Doctor listing and profile interface.
+- **Doctor Dashboard:** Separate interface for doctors.
+- **Doctor Document Verification:** Doctor document submission and administrative review workflow.
+- **Consultation Management:** Consultation request functionality for patients and doctors.
+- **Chat Interface:** Dedicated interface for communication.
+- **Emergency Assistance:** Emergency information and assistance page.
+- **AI Assistant:** Interface for AI-assisted guidance.
+- **Admin Panel:** Administrative interface for managing platform workflows.
 
-*Feature availability depends on the current backend and database configuration.*
+*Features requiring backend services or database access depend on the project's current configuration.*
 
 ## 🛠️ Tech Stack
 
@@ -24,6 +64,7 @@ JeevanCare is a web-based healthcare project designed to connect patients and do
 - **Backend:** Node.js, Express.js
 - **Database:** MySQL
 - **Authentication:** Backend authentication and password hashing
+- **Version Control:** Git and GitHub
 
 ## 📁 Project Structure
 
@@ -45,6 +86,7 @@ JeevanCare/
 ├── css/
 ├── js/
 ├── server/
+├── screenshots/
 ├── index.html
 ├── admin.html
 ├── ai-assistant.html
@@ -64,49 +106,101 @@ JeevanCare/
 └── README.md
 ```
 
-## ⚙️ Setup
+## ⚙️ Installation and Setup
 
 ### Prerequisites
 
-- Node.js and npm
-- MySQL
-- Git
+Make sure you have the following installed:
 
-### Installation
+- [Node.js](https://nodejs.org/)
+- npm (included with Node.js)
+- MySQL Server
+- [Visual Studio Code](https://code.visualstudio.com/)
+- VS Code Live Server extension (for frontend development)
 
-1. Clone the repository:
+### 1. Clone the Repository
 
-   ```bash
-   git clone https://github.com/rishu92/JeevanCare.git
-   ```
+```bash
+git clone https://github.com/rishu92/JeevanCare.git
+```
 
-2. Open the project folder:
+### 2. Open the Project
 
-   ```bash
-   cd JeevanCare
-   ```
+```bash
+cd JeevanCare
+```
 
-3. Install dependencies in the relevant application directories using their respective `package.json` files.
+### 3. Install Dependencies
 
-4. Configure the required environment variables in local `.env` files. Do not upload credentials or secret keys to GitHub.
+Install dependencies in the relevant application directories using their respective `package.json` files.
 
-5. Configure the MySQL database and required tables according to the backend setup.
+For the root project:
 
-6. Start the relevant backend server using the scripts defined in its `package.json`.
+```bash
+npm install
+```
 
-7. Open the frontend using a local development server such as VS Code Live Server.
+For the backend, if required:
 
-*Detailed database setup and startup commands can be added after verifying the project's current configuration.*
+```bash
+cd backend
+npm install
+```
 
-## 🔐 Security
+Return to the project root before running commands for other directories.
+
+### 4. Configure Environment Variables
+
+Create local `.env` files in the directories required by the application.
+
+Configure the required database settings, such as:
+
+```env
+DB_HOST=localhost
+DB_USER=your_mysql_username
+DB_PASSWORD=your_mysql_password
+DB_NAME=your_database_name
+DB_PORT=3306
+```
+
+Use the actual variable names required by each server's configuration.
+
+**Important:** Replace the example values with your own local configuration. Never upload real passwords, API keys, tokens, or `.env` files to GitHub.
+
+### 5. Configure the Database
+
+- Start your MySQL server.
+- Create the database required by the application.
+- Set the correct database name and credentials in the relevant environment file.
+- Create the required tables according to the backend setup scripts and application code.
+
+### 6. Run the Application
+
+Start the appropriate backend server using the scripts defined in the relevant `package.json`.
+
+For example, if the backend package defines a `start` script:
+
+```bash
+npm start
+```
+
+For frontend development, open the project in Visual Studio Code and use Live Server to run the relevant HTML page.
+
+*The exact startup commands and ports depend on the current configuration of the root, backend, and server directories.*
+
+## 🔐 Security and Privacy
 
 - Keep database credentials and API keys in environment variables.
-- Never commit `.env` files.
-- Do not use real patient information for demonstrations or testing.
+- Do not commit `.env` files or secret configuration.
+- Do not include real patient records or sensitive personal information in screenshots.
+- Use test data for demonstrations.
+- Do not expose administrator credentials in the repository.
 
 ## 🚀 Project Status
 
-JeevanCare is an academic software project under development. Local functionality and backend configuration should be verified before deployment.
+JeevanCare is an academic software project under development. Its interfaces, backend services, and database configuration should be tested before deployment.
+
+**Note:** This repository contains the project source code. It does not, by itself, host the application as a live website.
 
 ## 👨‍💻 Author
 
@@ -117,4 +211,4 @@ Galgotias University
 
 ## 📄 License
 
-No license has been specified yet. Please contact the repository owner before reusing or redistributing this project.
+No license has been specified for this repository. Contact the repository owner for permission before reusing or redistributing the project.
