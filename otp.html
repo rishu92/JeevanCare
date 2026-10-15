@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Verify OTP | JeevanCare</title>
+
+    <style>
+        /* =========================================
+           JeevanCare OTP Verification
+           ========================================= */
+
+        :root {
+            --bg: #06111f;
+            --card: rgba(14, 32, 52, 0.84);
+
+            --primary: #35d6c2;
+            --blue: #4aa8ff;
+
+            --text: #f4f8fc;
+            --muted: #8fa5ba;
+
+            --border: rgba(255, 255, 255, 0.08);
+
+            --danger: #ff6b7a;
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 30px 18px;
+
+            font-family:
+                Inter,
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: var(--text);
+
+            background:
+                radial-gradient(
+                    circle at 15% 15%,
+                    rgba(53, 214, 194, 0.10),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 85% 85%,
+                    rgba(74, 168, 255, 0.09),
+                    transparent 32%
+                ),
+                var(--bg);
+        }
+
+
+        /* =========================================
+           BACK
+           ========================================= */
+
+        .back-home {
+            position: fixed;
+
+            top: 25px;
+            left: 28px;
+
+            color: var(--muted);
+
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            transition: 0.25s ease;
+        }
+
+
+        .back-home:hover {
+            color: var(--primary);
+        }
+
+
+        /* =========================================
+           CARD
+           ========================================= */
+
+        .otp-wrapper {
+            width: 100%;
+            max-width: 430px;
+        }
+
+
+        .otp-card {
+            padding: 38px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 24px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(14, 32, 52, 0.91),
+                    rgba(7, 20, 34, 0.87)
+                );
+
+            box-shadow:
+                0 30px 90px rgba(0, 0, 0, 0.30);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            animation:
+                cardAppear 0.5s ease;
+        }
+
+
+        @keyframes cardAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* =========================================
+           ICON
+           ========================================= */
+
+        .otp-icon {
+            width: 58px;
+            height: 58px;
+
+            margin: 0 auto 20px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--blue)
+                );
+
+            color: #06111f;
+
+            font-size: 25px;
+            font-weight: 900;
+
+            box-shadow:
+                0 12px 35px
+                rgba(53, 214, 194, 0.17);
+        }
+
+
+        /* =========================================
+           HEADING
+           ========================================= */
+
+        .heading {
+            text-align: center;
+
+            margin-bottom: 28px;
+        }
+
+
+        .heading h1 {
+            font-size: 25px;
+
+            letter-spacing: -0.6px;
+        }
+
+
+        .heading h1 span {
+            color: var(--primary);
+        }
+
+
+        .heading h2 {
+            margin-top: 25px;
+
+            font-size: 23px;
+        }
+
+
+        .heading p {
+            max-width: 320px;
+
+            margin: 8px auto 0;
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+
+        .destination {
+            margin-top: 10px;
+
+            color: #dce7f1;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+           OTP INPUTS
+           ========================================= */
+
+        .otp-inputs {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 9px;
+
+            margin: 25px 0 20px;
+        }
+
+
+        .otp-input {
+            width: 48px;
+            height: 55px;
+
+            border: 1px solid
+                rgba(255, 255, 255, 0.09);
+
+            border-radius: 12px;
+
+            outline: none;
+
+            background:
+                rgba(255, 255, 255, 0.035);
+
+            color: var(--text);
+
+            text-align: center;
+
+            font-family: inherit;
+
+            font-size: 21px;
+            font-weight: 800;
+
+            transition: 0.25s ease;
+        }
+
+
+        .otp-input:focus {
+            border-color:
+                rgba(53, 214, 194, 0.50);
+
+            background:
+                rgba(53, 214, 194, 0.05);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(53, 214, 194, 0.06);
+        }
+
+
+        .otp-input.error {
+            border-color:
+                rgba(255, 107, 122, 0.65);
+        }
+
+
+        /* =========================================
+           MESSAGE
+           ========================================= */
+
+        .message {
+            display: none;
+
+            margin-bottom: 15px;
+
+            padding: 10px 12px;
+
+            border-radius: 10px;
+
+            font-size: 10px;
+
+            line-height: 1.5;
+
+            text-align: center;
+        }
+
+
+        .message.error {
+            display: block;
+
+            color: #ffb3bc;
+
+            background:
+                rgba(255, 107, 122, 0.07);
+
+            border: 1px solid
+                rgba(255, 107, 122, 0.16);
+        }
+
+
+        .message.success {
+            display: block;
+
+            color: #8ff0d2;
+
+            background:
+                rgba(53, 214, 161, 0.07);
+
+            border: 1px solid
+                rgba(53, 214, 161, 0.16);
+        }
+
+
+        /* =========================================
+           VERIFY BUTTON
+           ========================================= */
+
+        .verify-btn {
+            width: 100%;
+            height: 49px;
+
+            border: 0;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    #43c9e8
+                );
+
+            color: #06111f;
+
+            font-family: inherit;
+
+            font-size: 12px;
+            font-weight: 900;
+
+            cursor: pointer;
+
+            transition: 0.25s ease;
+        }
+
+
+        .verify-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(53, 214, 194, 0.18);
+        }
+
+
+        .verify-btn:disabled {
+            opacity: 0.55;
+
+            cursor: not-allowed;
+
+            transform: none;
+
+            box-shadow: none;
+        }
+
+
+        /* =========================================
+           RESEND
+           ========================================= */
+
+        .resend-area {
+            margin-top: 21px;
+
+            text-align: center;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+
+        .resend-btn {
+            border: 0;
+
+            background: transparent;
+
+            color: var(--primary);
+
+            font-family: inherit;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+
+        .resend-btn:disabled {
+            color: #536b7e;
+
+            cursor: not-allowed;
+        }
+
+
+        .timer {
+            margin-top: 7px;
+
+            color: #61788c;
+
+            font-size: 10px;
+        }
+
+
+        /* =========================================
+           DEMO NOTE
+           ========================================= */
+
+        .demo-note {
+            margin-top: 22px;
+
+            padding: 12px;
+
+            border:
+                1px solid
+                rgba(74, 168, 255, 0.13);
+
+            border-radius: 11px;
+
+            background:
+                rgba(74, 168, 255, 0.035);
+
+            color: #8299ad;
+
+            font-size: 9px;
+
+            line-height: 1.6;
+
+            text-align: center;
+        }
+
+
+        .demo-note strong {
+            color: #a9cfff;
+        }
+
+
+        /* =========================================
+           LOGIN
+           ========================================= */
+
+        .login-link {
+            margin-top: 20px;
+
+            text-align: center;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+
+        .login-link a {
+            color: var(--primary);
+
+            font-weight: 700;
+
+            text-decoration: none;
+        }
+
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+           ========================================= */
+
+        @media (max-width: 480px) {
+
+            body {
+                padding: 60px 13px 25px;
+            }
+
+
+            .back-home {
+                top: 18px;
+                left: 17px;
+
+                font-size: 11px;
+            }
+
+
+            .otp-card {
+                padding: 28px 20px;
+
+                border-radius: 20px;
+            }
+
+
+            .otp-inputs {
+                gap: 6px;
+            }
+
+
+            .otp-input {
+                width: 43px;
+                height: 51px;
+
+                font-size: 19px;
+            }
+
+        }
+
+
+        @media (max-width: 360px) {
+
+            .otp-input {
+                width: 39px;
+                height: 48px;
+            }
+
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- Back -->
+
+    <a
+        href="register.html"
+        class="back-home"
+    >
+        ← Back to Registration
+    </a>
+
+
+    <main class="otp-wrapper">
+
+        <section class="otp-card">
+
+
+            <!-- ICON -->
+
+            <div class="otp-icon">
+                ✓
+            </div>
+
+
+            <!-- HEADING -->
+
+            <div class="heading">
+
+                <h1>
+                    Jeevan<span>Care</span>
+                </h1>
+
+                <h2>
+                    Verify your account
+                </h2>
+
+                <p>
+                    Enter the 6-digit verification code
+                    to continue.
+                </p>
+
+                <div
+                    class="destination"
+                    id="destination"
+                >
+                    Verification code sent to your mobile.
+                </div>
+
+            </div>
+
+
+            <!-- OTP FORM -->
+
+            <form id="otpForm">
+
+
+                <div class="otp-inputs">
+
+                    <input
+                        type="text"
+                        class="otp-input"
+                        maxlength="1"
+                        inputmode="numeric"
+                        autocomplete="one-time-code"
+                    >
+
+                    <input
+                        type="text"
+                        class="otp-input"
+                        maxlength="1"
+                        inputmode="numeric"
+                    >
+
+                    <input
+                        type="text"
+                        class="otp-input"
+                        maxlength="1"
+                        inputmode="numeric"
+                    >
+
+                    <input
+                        type="text"
+                        class="otp-input"
+                        maxlength="1"
+                        inputmode="numeric"
+                    >
+
+                    <input
+                        type="text"
+                        class="otp-input"
+                        maxlength="1"
+                        inputmode="numeric"
+                    >
+
+                    <input
+                        type="text"
+                        class="otp-input"
+                        maxlength="1"
+                        inputmode="numeric"
+                    >
+
+                </div>
+
+
+                <!-- MESSAGE -->
+
+                <div
+                    id="formMessage"
+                    class="message"
+                ></div>
+
+
+                <!-- VERIFY -->
+
+                <button
+                    type="submit"
+                    id="verifyBtn"
+                    class="verify-btn"
+                >
+                    Verify OTP
+                </button>
+
+            </form>
+
+
+            <!-- RESEND -->
+
+            <div class="resend-area">
+
+                Didn't receive the code?
+
+                <button
+                    type="button"
+                    id="resendBtn"
+                    class="resend-btn"
+                    disabled
+                >
+                    Resend OTP
+                </button>
+
+                <div
+                    id="timer"
+                    class="timer"
+                >
+                    Resend available in 30 seconds
+                </div>
+
+            </div>
+
+
+            <!-- DEMO -->
+
+            <div class="demo-note">
+
+                <strong>Demo mode:</strong>
+
+                This academic project currently uses
+                a demo OTP instead of sending a real SMS.
+
+                The demo verification code is
+                <strong>123456</strong>.
+
+            </div>
+
+
+            <!-- LOGIN -->
+
+            <div class="login-link">
+
+                Already verified?
+
+                <a href="login.html">
+                    Go to Login
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        // =========================================
+        // ELEMENTS
+        // =========================================
+
+        const otpForm =
+            document.getElementById(
+                "otpForm"
+            );
+
+        const otpInputs =
+            Array.from(
+                document.querySelectorAll(
+                    ".otp-input"
+                )
+            );
+
+        const destination =
+            document.getElementById(
+                "destination"
+            );
+
+        const formMessage =
+            document.getElementById(
+                "formMessage"
+            );
+
+        const verifyBtn =
+            document.getElementById(
+                "verifyBtn"
+            );
+
+        const resendBtn =
+            document.getElementById(
+                "resendBtn"
+            );
+
+        const timer =
+            document.getElementById(
+                "timer"
+            );
+
+
+        // =========================================
+        // SESSION DATA
+        // =========================================
+
+        const otpDestination =
+            sessionStorage.getItem(
+                "jeevancare_otp_destination"
+            );
+
+        const otpEmail =
+            sessionStorage.getItem(
+                "jeevancare_otp_email"
+            );
+
+        const registeredRole =
+            sessionStorage.getItem(
+                "jeevancare_registered_role"
+            );
+
+        const demoOtp =
+            sessionStorage.getItem(
+                "jeevancare_demo_otp"
+            ) || "123456";
+
+
+        // =========================================
+        // SHOW DESTINATION
+        // =========================================
+
+        if (otpDestination) {
+
+            const maskedMobile =
+                otpDestination.length === 10
+                    ? otpDestination.slice(0, 2) +
+                      "******" +
+                      otpDestination.slice(-2)
+                    : otpDestination;
+
+
+            destination.textContent =
+                `Verification code sent to ${maskedMobile}`;
+
+        } else if (otpEmail) {
+
+            destination.textContent =
+                `Verification code sent to ${otpEmail}`;
+
+        } else {
+
+            destination.textContent =
+                "Demo verification code: 123456";
+
+        }
+
+
+        // =========================================
+        // MESSAGE
+        // =========================================
+
+        function showMessage(
+            message,
+            type = "error"
+        ) {
+
+            formMessage.textContent =
+                message;
+
+            formMessage.className =
+                `message ${type}`;
+
+        }
+
+
+        function clearMessage() {
+
+            formMessage.textContent =
+                "";
+
+            formMessage.className =
+                "message";
+
+        }
+
+
+        // =========================================
+        // OTP INPUT BEHAVIOUR
+        // =========================================
+
+        otpInputs.forEach(
+            (input, index) => {
+
+                input.addEventListener(
+                    "input",
+                    () => {
+
+                        clearMessage();
+
+                        input.value =
+                            input.value
+                                .replace(/\D/g, "")
+                                .slice(0, 1);
+
+
+                        input.classList.remove(
+                            "error"
+                        );
+
+
+                        // Move forward
+
+                        if (
+                            input.value &&
+                            index <
+                            otpInputs.length - 1
+                        ) {
+
+                            otpInputs[
+                                index + 1
+                            ].focus();
+
+                        }
+
+                    }
+                );
+
+
+                input.addEventListener(
+                    "keydown",
+                    (event) => {
+
+                        // Backspace
+
+                        if (
+                            event.key ===
+                            "Backspace" &&
+                            !input.value &&
+                            index > 0
+                        ) {
+
+                            otpInputs[
+                                index - 1
+                            ].focus();
+
+                        }
+
+                        // Left arrow
+
+                        if (
+                            event.key ===
+                            "ArrowLeft" &&
+                            index > 0
+                        ) {
+
+                            otpInputs[
+                                index - 1
+                            ].focus();
+
+                        }
+
+                        // Right arrow
+
+                        if (
+                            event.key ===
+                            "ArrowRight" &&
+                            index <
+                            otpInputs.length - 1
+                        ) {
+
+                            otpInputs[
+                                index + 1
+                            ].focus();
+
+                        }
+
+                    }
+                );
+
+
+                // Paste complete OTP
+
+                input.addEventListener(
+                    "paste",
+                    (event) => {
+
+                        event.preventDefault();
+
+
+                        const pasted =
+                            event.clipboardData
+                                .getData("text")
+                                .replace(/\D/g, "")
+                                .slice(0, 6);
+
+
+                        pasted
+                            .split("")
+                            .forEach(
+                                (digit, digitIndex) => {
+
+                                    if (
+                                        otpInputs[
+                                            digitIndex
+                                        ]
+                                    ) {
+
+                                        otpInputs[
+                                            digitIndex
+                                        ].value =
+                                            digit;
+
+                                    }
+
+                                }
+                            );
+
+
+                        const lastIndex =
+                            Math.min(
+                                pasted.length,
+                                otpInputs.length
+                            ) - 1;
+
+
+                        if (lastIndex >= 0) {
+
+                            otpInputs[
+                                lastIndex
+                            ].focus();
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+
+        // =========================================
+        // GET OTP VALUE
+        // =========================================
+
+        function getOtpValue() {
+
+            return otpInputs
+                .map(
+                    input =>
+                        input.value
+                )
+                .join("");
+
+        }
+
+
+        // =========================================
+        // VERIFY OTP
+        // =========================================
+
+        otpForm.addEventListener(
+            "submit",
+            (event) => {
+
+                event.preventDefault();
+
+                clearMessage();
+
+
+                const enteredOtp =
+                    getOtpValue();
+
+
+                // ---------------------------------
+                // Validate length
+                // ---------------------------------
+
+                if (
+                    enteredOtp.length !== 6
+                ) {
+
+                    showMessage(
+                        "Please enter all 6 digits of the OTP."
+                    );
+
+
+                    otpInputs.forEach(
+                        input => {
+
+                            input.classList.add(
+                                "error"
+                            );
+
+                        }
+                    );
+
+
+                    return;
+                }
+
+
+                // ---------------------------------
+                // Verify
+                // ---------------------------------
+
+                verifyBtn.disabled =
+                    true;
+
+                verifyBtn.textContent =
+                    "Verifying...";
+
+
+                setTimeout(
+                    () => {
+
+                        if (
+                            enteredOtp ===
+                            demoOtp
+                        ) {
+
+                            showMessage(
+                                "OTP verified successfully. Redirecting to login...",
+                                "success"
+                            );
+
+
+                            otpInputs.forEach(
+                                input => {
+
+                                    input.classList.remove(
+                                        "error"
+                                    );
+
+                                }
+                            );
+
+
+                            // Clear OTP-related data
+
+                            sessionStorage.removeItem(
+                                "jeevancare_otp_destination"
+                            );
+
+                            sessionStorage.removeItem(
+                                "jeevancare_otp_email"
+                            );
+
+                            sessionStorage.removeItem(
+                                "jeevancare_registered_role"
+                            );
+
+                            sessionStorage.removeItem(
+                                "jeevancare_demo_otp"
+                            );
+
+
+                            // Redirect to login
+
+                            setTimeout(
+                                () => {
+
+                                    window.location.href =
+                                        "login.html";
+
+                                },
+                                900
+                            );
+
+
+                        } else {
+
+                            showMessage(
+                                "Invalid OTP. Please enter the correct 6-digit code."
+                            );
+
+
+                            otpInputs.forEach(
+                                input => {
+
+                                    input.classList.add(
+                                        "error"
+                                    );
+
+                                }
+                            );
+
+
+                            verifyBtn.disabled =
+                                false;
+
+                            verifyBtn.textContent =
+                                "Verify OTP";
+
+                        }
+
+                    },
+                    500
+                );
+
+            }
+        );
+
+
+        // =========================================
+        // RESEND TIMER
+        // =========================================
+
+        let remainingSeconds = 30;
+
+        let timerInterval = null;
+
+
+        function startResendTimer() {
+
+            remainingSeconds = 30;
+
+            resendBtn.disabled =
+                true;
+
+
+            timer.textContent =
+                `Resend available in ${remainingSeconds} seconds`;
+
+
+            if (timerInterval) {
+
+                clearInterval(
+                    timerInterval
+                );
+
+            }
+
+
+            timerInterval =
+                setInterval(
+                    () => {
+
+                        remainingSeconds--;
+
+
+                        if (
+                            remainingSeconds <= 0
+                        ) {
+
+                            clearInterval(
+                                timerInterval
+                            );
+
+                            resendBtn.disabled =
+                                false;
+
+                            timer.textContent =
+                                "You can request a new OTP now.";
+
+                            return;
+
+                        }
+
+
+                        timer.textContent =
+                            `Resend available in ${remainingSeconds} seconds`;
+
+                    },
+                    1000
+                );
+
+        }
+
+
+        // =========================================
+        // RESEND OTP
+        // =========================================
+
+        resendBtn.addEventListener(
+            "click",
+            () => {
+
+                /*
+                 * Demo mode:
+                 * The OTP remains 123456.
+                 */
+
+                sessionStorage.setItem(
+                    "jeevancare_demo_otp",
+                    "123456"
+                );
+
+
+                clearMessage();
+
+
+                showMessage(
+                    "A new demo OTP has been generated. Use 123456.",
+                    "success"
+                );
+
+
+                otpInputs.forEach(
+                    input => {
+
+                        input.value = "";
+
+                        input.classList.remove(
+                            "error"
+                        );
+
+                    }
+                );
+
+
+                otpInputs[0].focus();
+
+
+                startResendTimer();
+
+            }
+        );
+
+
+        // =========================================
+        // START TIMER
+        // =========================================
+
+        startResendTimer();
+
+
+        // =========================================
+        // AUTO FOCUS
+        // =========================================
+
+        if (otpInputs[0]) {
+
+            otpInputs[0].focus();
+
+        }
+
+    </script>
+
+</body>
+</html>

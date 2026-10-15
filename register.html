@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | JeevanCare</title>
+
+    <style>
+        :root {
+            --bg: #06111f;
+            --primary: #35d6c2;
+            --blue: #4aa8ff;
+            --text: #f4f8fc;
+            --muted: #8fa5ba;
+            --border: rgba(255, 255, 255, 0.08);
+            --danger: #ff6b7a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 70px 18px 40px;
+            font-family: Inter, Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(
+                    circle at 15% 10%,
+                    rgba(53, 214, 194, 0.10),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 90%,
+                    rgba(74, 168, 255, 0.09),
+                    transparent 30%
+                ),
+                var(--bg);
+        }
+
+        .back-home {
+            position: fixed;
+            top: 24px;
+            left: 28px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.25s ease;
+        }
+
+        .back-home:hover {
+            color: var(--primary);
+        }
+
+        .register-wrapper {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .register-card {
+            padding: 36px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: linear-gradient(
+                145deg,
+                rgba(14, 32, 52, 0.91),
+                rgba(7, 20, 34, 0.95)
+            );
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.30);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 27px;
+        }
+
+        .brand-icon {
+            width: 52px;
+            height: 52px;
+            margin: 0 auto 12px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                var(--blue)
+            );
+            color: #06111f;
+            font-size: 25px;
+            font-weight: 900;
+        }
+
+        .brand h1 {
+            font-size: 25px;
+        }
+
+        .brand h1 span {
+            color: var(--primary);
+        }
+
+        .brand p {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .heading {
+            margin-bottom: 22px;
+        }
+
+        .heading h2 {
+            font-size: 23px;
+        }
+
+        .heading p {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label,
+        .role-title {
+            display: block;
+            margin-bottom: 7px;
+            color: #dce7f1;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 47px;
+            padding: 0 13px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.035);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 12px;
+            transition: 0.25s ease;
+        }
+
+        .form-group input:focus {
+            border-color: rgba(53, 214, 194, 0.55);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 0 3px rgba(53, 214, 194, 0.06);
+        }
+
+        .form-group input::placeholder {
+            color: #63798d;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 13px;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 52px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            border: 0;
+            background: transparent;
+            color: var(--muted);
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+
+        .role-title {
+            margin-bottom: 8px;
+        }
+
+        .role-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .role-option {
+            position: relative;
+        }
+
+        .role-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .role-label {
+            display: block;
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: rgba(255, 255, 255, 0.025);
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .role-label strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .role-label span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 9px;
+            line-height: 1.5;
+        }
+
+        .role-option input:checked + .role-label {
+            border-color: rgba(53, 214, 194, 0.65);
+            background: rgba(53, 214, 194, 0.07);
+            box-shadow: 0 0 0 2px rgba(53, 214, 194, 0.04);
+        }
+
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin: 3px 0 17px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        .terms input {
+            margin-top: 2px;
+            accent-color: var(--primary);
+        }
+
+        .terms a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            display: none;
+            margin-bottom: 15px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .message.error {
+            display: block;
+            color: #ffb3bc;
+            background: rgba(255, 107, 122, 0.07);
+            border: 1px solid rgba(255, 107, 122, 0.16);
+        }
+
+        .message.success {
+            display: block;
+            color: #8ff0d2;
+            background: rgba(53, 214, 161, 0.07);
+            border: 1px solid rgba(53, 214, 161, 0.16);
+        }
+
+        .register-btn {
+            width: 100%;
+            height: 49px;
+            border: 0;
+            border-radius: 12px;
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                #43c9e8
+            );
+            color: #06111f;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(53, 214, 194, 0.18);
+        }
+
+        .register-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-link {
+            margin-top: 20px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .login-link a {
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 65px 13px 30px;
+            }
+
+            .back-home {
+                top: 18px;
+                left: 17px;
+                font-size: 11px;
+            }
+
+            .register-card {
+                padding: 27px 21px;
+                border-radius: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="index.html" class="back-home">
+        ← Back to JeevanCare
+    </a>
+
+    <main class="register-wrapper">
+        <section class="register-card">
+
+            <!-- BRAND -->
+            <div class="brand">
+                <div class="brand-icon">+</div>
+
+                <h1>Jeevan<span>Care</span></h1>
+
+                <p>Healthcare for everyone</p>
+            </div>
+
+            <!-- HEADING -->
+            <div class="heading">
+                <h2>Create your account</h2>
+
+                <p>
+                    Join JeevanCare and access healthcare services
+                    from one place.
+                </p>
+            </div>
+
+            <!-- REGISTRATION FORM -->
+            <form id="registerForm">
+
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+
+                    <input
+                        type="text"
+                        id="fullName"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        required
+                    >
+                </div>
+
+                <!-- Mobile and Email -->
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="mobile">Mobile Number</label>
+
+                        <input
+                            type="tel"
+                            id="mobile"
+                            placeholder="10-digit mobile"
+                            maxlength="10"
+                            autocomplete="tel"
+                            inputmode="numeric"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+                <!-- Passwords -->
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder="Min. 6 characters"
+                                autocomplete="new-password"
+                                minlength="6"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                id="togglePassword"
+                            >Show</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">
+                            Confirm Password
+                        </label>
+
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                placeholder="Repeat password"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                id="toggleConfirmPassword"
+                            >Show</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Select Role -->
+                <div class="role-title">
+                    I am registering as
+                </div>
+
+                <div class="role-options">
+
+                    <div class="role-option">
+                        <input
+                            type="radio"
+                            id="patientRole"
+                            name="role"
+                            value="patient"
+                            checked
+                        >
+
+                        <label for="patientRole" class="role-label">
+                            <strong>Patient</strong>
+
+                            <span>
+                                Find doctors and get healthcare guidance
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="role-option">
+                        <input
+                            type="radio"
+                            id="doctorRole"
+                            name="role"
+                            value="doctor"
+                        >
+
+                        <label for="doctorRole" class="role-label">
+                            <strong>Doctor</strong>
+
+                            <span>
+                                Manage consultations and patients
+                            </span>
+                        </label>
+                    </div>
+
+                </div>
+
+                <!-- Terms -->
+                <label class="terms">
+                    <input type="checkbox" id="terms" required>
+
+                    <span>
+                        I agree to the JeevanCare
+                        <a href="#" id="termsLink">
+                            Terms &amp; Conditions
+                        </a>
+                        and understand that JeevanCare AI does not
+                        replace professional medical advice.
+                    </span>
+                </label>
+
+                <!-- Error and Success Messages -->
+                <div
+                    id="formMessage"
+                    class="message"
+                    role="alert"
+                    aria-live="polite"
+                ></div>
+
+                <!-- Submit -->
+                <button
+                    type="submit"
+                    id="registerBtn"
+                    class="register-btn"
+                >
+                    Create Account
+                </button>
+
+            </form>
+
+            <!-- Login Link -->
+            <div class="login-link">
+                Already have an account?
+                <a href="login.html">Login</a>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const registerForm =
+                document.getElementById("registerForm");
+
+            const fullName =
+                document.getElementById("fullName");
+
+            const mobile =
+                document.getElementById("mobile");
+
+            const email =
+                document.getElementById("email");
+
+            const password =
+                document.getElementById("password");
+
+            const confirmPassword =
+                document.getElementById("confirmPassword");
+
+            const patientRole =
+                document.getElementById("patientRole");
+
+            const doctorRole =
+                document.getElementById("doctorRole");
+
+            const terms =
+                document.getElementById("terms");
+
+            const termsLink =
+                document.getElementById("termsLink");
+
+            const formMessage =
+                document.getElementById("formMessage");
+
+            const registerBtn =
+                document.getElementById("registerBtn");
+
+
+            // Display messages
+            function showMessage(message, type = "error") {
+                formMessage.textContent = message;
+                formMessage.className = "message " + type;
+            }
+
+            function clearMessage() {
+                formMessage.textContent = "";
+                formMessage.className = "message";
+            }
+
+
+            // Password Show/Hide
+            function setupPasswordToggle(inputId, buttonId) {
+                const input = document.getElementById(inputId);
+                const button = document.getElementById(buttonId);
+
+                if (!input || !button) {
+                    return;
+                }
+
+                button.addEventListener("click", function () {
+                    const shouldShow = input.type === "password";
+
+                    input.type = shouldShow ? "text" : "password";
+                    button.textContent = shouldShow ? "Hide" : "Show";
+                });
+            }
+
+            setupPasswordToggle(
+                "password",
+                "togglePassword"
+            );
+
+            setupPasswordToggle(
+                "confirmPassword",
+                "toggleConfirmPassword"
+            );
+
+
+            // Mobile: allow only 10 digits
+            mobile.addEventListener("input", function () {
+                mobile.value = mobile.value
+                    .replace(/\D/g, "")
+                    .slice(0, 10);
+            });
+
+
+            // Terms and Conditions
+            termsLink.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                alert(
+                    "JeevanCare provides general healthcare guidance " +
+                    "and consultation coordination. It does not replace " +
+                    "professional medical advice."
+                );
+            });
+
+
+            // Registration
+            registerForm.addEventListener(
+                "submit",
+                async function (event) {
+
+                    event.preventDefault();
+                    clearMessage();
+
+                    let name = fullName.value.trim();
+
+                    const mobileNumber = mobile.value.trim();
+                    const emailAddress = email.value.trim();
+                    const passwordValue = password.value;
+                    const confirmValue = confirmPassword.value;
+
+                    const role = doctorRole.checked
+                        ? "doctor"
+                        : "patient";
+
+
+                    // Add Dr. only for doctors.
+                    // Avoid duplicate prefixes such as Dr. Dr. Rahul.
+                    if (role === "doctor") {
+                        name = name
+                            .replace(/^(dr\.?\s*)+/i, "")
+                            .trim();
+
+                        if (name.length > 0) {
+                            name = "Dr. " + name;
+                        }
+                    }
+
+
+                    // Name validation
+                    if (name.length < 2) {
+                        showMessage("Please enter your full name.");
+                        fullName.focus();
+                        return;
+                    }
+
+
+                    // Mobile validation
+                    if (!/^[0-9]{10}$/.test(mobileNumber)) {
+                        showMessage(
+                            "Please enter a valid 10-digit mobile number."
+                        );
+
+                        mobile.focus();
+                        return;
+                    }
+
+
+                    // Email validation
+                    if (
+                        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress)
+                    ) {
+                        showMessage(
+                            "Please enter a valid email address."
+                        );
+
+                        email.focus();
+                        return;
+                    }
+
+
+                    // Password validation
+                    if (passwordValue.length < 6) {
+                        showMessage(
+                            "Password must contain at least 6 characters."
+                        );
+
+                        password.focus();
+                        return;
+                    }
+
+
+                    // Confirm password
+                    if (passwordValue !== confirmValue) {
+                        showMessage("Passwords do not match.");
+                        confirmPassword.focus();
+                        return;
+                    }
+
+
+                    // Terms validation
+                    if (!terms.checked) {
+                        showMessage(
+                            "Please accept the Terms & Conditions."
+                        );
+
+                        terms.focus();
+                        return;
+                    }
+
+
+                    // Loading state
+                    registerBtn.disabled = true;
+                    registerBtn.textContent = "Creating account...";
+
+
+                    try {
+
+                        const response = await fetch(
+                            "http://localhost:5000/api/auth/register",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    full_name: name,
+                                    mobile: mobileNumber,
+                                    email: emailAddress,
+                                    password: passwordValue,
+                                    role: role
+                                })
+                            }
+                        );
+
+
+                        let data = {};
+
+                        try {
+                            data = await response.json();
+                        } catch (parseError) {
+                            throw new Error(
+                                "Invalid server response. " +
+                                "Please check that the backend is running."
+                            );
+                        }
+
+
+                        if (!response.ok) {
+                            throw new Error(
+                                data.message ||
+                                data.error ||
+                                "Registration failed. Please try again."
+                            );
+                        }
+
+
+                        // Store demo OTP information
+                        sessionStorage.setItem(
+                            "jeevancare_otp_destination",
+                            mobileNumber
+                        );
+
+                        sessionStorage.setItem(
+                            "jeevancare_otp_email",
+                            emailAddress
+                        );
+
+                        sessionStorage.setItem(
+                            "jeevancare_registered_role",
+                            role
+                        );
+
+                        sessionStorage.setItem(
+                            "jeevancare_demo_otp",
+                            "123456"
+                        );
+
+
+                        showMessage(
+                            "Account created successfully. " +
+                            "Redirecting to OTP verification...",
+                            "success"
+                        );
+
+
+                        // Redirect to OTP page
+                        setTimeout(function () {
+                            window.location.href = "otp.html";
+                        }, 800);
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Registration error:",
+                            error
+                        );
+
+                        showMessage(
+                            error.message ||
+                            "Unable to connect to the server. Please try again."
+                        );
+
+                        registerBtn.disabled = false;
+                        registerBtn.textContent = "Create Account";
+                    }
+
+                }
+            );
+
+        });
+    </script>
+
+</body>
+</html>

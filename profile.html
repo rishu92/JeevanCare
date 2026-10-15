@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | JeevanCare</title>
+
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+
+<body>
+
+    <!-- Background -->
+    <div class="bg-glow glow-one"></div>
+    <div class="bg-glow glow-two"></div>
+    <div class="grid-bg"></div>
+
+
+    <!-- Header -->
+    <header class="profile-header">
+
+        <a href="dashboard.html" class="back-link">
+            <span>←</span>
+            Back to Dashboard
+        </a>
+
+        <div class="brand">
+            <div class="brand-icon">✚</div>
+
+            <div>
+                <h1>Jeevan<span>Care</span></h1>
+                <p>My Profile</p>
+            </div>
+        </div>
+
+    </header>
+
+
+    <!-- Main -->
+    <main class="profile-page">
+
+        <section class="profile-intro">
+
+            <span class="section-label">ACCOUNT</span>
+
+            <h2>My Profile</h2>
+
+            <p>
+                Manage your personal information and keep your JeevanCare
+                account details up to date.
+            </p>
+
+        </section>
+
+
+        <!-- Profile Card -->
+        <section class="profile-card">
+
+            <!-- Profile top -->
+            <div class="profile-top">
+
+                <div class="profile-avatar" id="profileAvatar">
+                    U
+                </div>
+
+                <div class="profile-heading">
+
+                    <h3 id="profileName">
+                        Loading...
+                    </h3>
+
+                    <p id="profileEmail">
+                        Loading...
+                    </p>
+
+                    <span class="role-badge" id="profileRole">
+                        Patient
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Message -->
+            <div
+                id="profileMessage"
+                class="profile-message"
+                style="display: none;"
+            ></div>
+
+
+            <!-- Form -->
+            <form id="profileForm">
+
+                <div class="form-section-title">
+                    Personal Information
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="fullName">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="mobile">
+                            Mobile Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="mobile"
+                            name="mobile"
+                            placeholder="Enter mobile number"
+                            maxlength="10"
+                            inputmode="numeric"
+                            autocomplete="tel"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter email address"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-section-title account-title">
+                    Account Information
+                </div>
+
+
+                <div class="account-info-grid">
+
+                    <div class="account-info-box">
+
+                        <span>Account Role</span>
+
+                        <strong id="accountRole">
+                            Patient
+                        </strong>
+
+                    </div>
+
+
+                    <div class="account-info-box">
+
+                        <span>Member Since</span>
+
+                        <strong id="memberSince">
+                            —
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-actions">
+
+                    <a
+                        href="dashboard.html"
+                        class="secondary-btn"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                        id="saveProfileBtn"
+                    >
+                        Save Changes
+                        <span>→</span>
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- Security -->
+        <section class="security-card">
+
+            <div class="security-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <h3>Your information is protected</h3>
+
+                <p>
+                    JeevanCare keeps your personal information secure.
+                    Never share your password or OTP with anyone.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="profile-footer">
+        <p>
+            © 2026 JeevanCare. Built for accessible rural healthcare.
+        </p>
+    </footer>
+
+
+    <script src="js/profile.js"></script>
+
+</body>
+</html>

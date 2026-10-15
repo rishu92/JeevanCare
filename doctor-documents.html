@@ -1,0 +1,468 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Verification - JeevanCare</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f7f6;
+            color: #243746;
+        }
+
+        header {
+            background: #087f70;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 15px;
+        }
+
+        .logout-btn {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 620px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #087f70;
+            font-size: 26px;
+        }
+
+        .description {
+            color: #596b75;
+            line-height: 1.7;
+        }
+
+        .details {
+            background: #f5f9f8;
+            padding: 16px;
+            border-radius: 8px;
+            line-height: 2;
+            overflow-wrap: anywhere;
+            margin: 20px 0;
+        }
+
+        .notice {
+            padding: 14px;
+            background: #e9f7f3;
+            border-left: 4px solid #087f70;
+            border-radius: 5px;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+
+        .email-btn {
+            width: 100%;
+            margin-top: 15px;
+            background: #087f70;
+            color: white;
+        }
+
+        .email-btn:hover {
+            background: #06695d;
+        }
+
+        .email-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 6px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .message.error {
+            display: block;
+            background: #fdecec;
+            color: #a12424;
+        }
+
+        .message.success {
+            display: block;
+            background: #e8f7ed;
+            color: #176c36;
+        }
+
+        .status-label {
+            display: inline-block;
+            padding: 8px 14px;
+            background: #fff3cd;
+            color: #856404;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            color: #718087;
+            padding: 20px;
+            font-size: 13px;
+        }
+
+        /* Approval popup */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .popup-card {
+            background: white;
+            padding: 30px 24px;
+            border-radius: 14px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+            animation: popupAppear 0.25s ease;
+        }
+
+        .popup-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .popup-card h2 {
+            color: #087f70;
+            margin-top: 0;
+        }
+
+        .popup-card p {
+            color: #596b75;
+            line-height: 1.7;
+        }
+
+        @keyframes popupAppear {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 16px 5%;
+            }
+
+            header h2 {
+                font-size: 20px;
+            }
+
+            .container {
+                padding: 22px;
+                margin: 25px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>JeevanCare</h2>
+
+    <button type="button" class="logout-btn" id="logoutBtn">
+        Logout
+    </button>
+</header>
+
+<main class="container" id="mainContainer">
+
+    <h1>Doctor Verification</h1>
+
+    <p class="description">
+        Send your verification request to the JeevanCare admin.
+        Your registered details will be included automatically.
+    </p>
+
+    <div class="details">
+        <strong>Doctor Name:</strong>
+        <span id="doctorName">Loading...</span>
+        <br>
+
+        <strong>Registered Mobile:</strong>
+        <span id="doctorMobile">Loading...</span>
+        <br>
+
+        <strong>Registered Email:</strong>
+        <span id="doctorEmail">Loading...</span>
+        <br>
+
+        <strong>Verification Status:</strong>
+        <span id="verificationStatus">Pending submission</span>
+    </div>
+
+    <div class="notice">
+        <strong>Before sending:</strong>
+
+        <ul>
+            <li>Keep your medical registration certificate ready.</li>
+            <li>Keep your qualification certificate ready.</li>
+            <li>Attach both documents to your email, preferably as one PDF.</li>
+            <li>Maximum recommended PDF size is 5 MB.</li>
+            <li>Wait for the admin to verify your documents.</li>
+        </ul>
+    </div>
+
+    <button type="button" class="email-btn" id="emailBtn">
+        Send Verification Email
+    </button>
+
+    <button
+        type="button"
+        class="email-btn"
+        id="sentEmailBtn"
+        style="display: none;"
+    >
+        I Have Sent the Email
+    </button>
+
+    <div id="message" class="message" role="status" aria-live="polite"></div>
+
+</main>
+
+<footer>
+    © JeevanCare | AI-Assisted Healthcare Platform
+</footer>
+
+<!-- Waiting for Admin Approval Popup -->
+<div
+    class="popup-overlay"
+    id="approvalPopup"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="popupTitle"
+>
+    <div class="popup-card">
+
+        <div class="popup-icon">⏳</div>
+
+        <h2 id="popupTitle">Waiting for Admin Approval</h2>
+
+        <p>
+            Your verification request has been marked as submitted on this
+            page. Please wait while the JeevanCare admin reviews your
+            documents.
+        </p>
+
+        <div class="status-label">
+            Pending Verification
+        </div>
+
+        <p>
+            Your doctor account will be activated only after your
+            documents have been verified and your account has been approved.
+        </p>
+
+        <button type="button" class="email-btn" id="closePopupBtn">
+            Okay
+        </button>
+
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const token = localStorage.getItem("jeevancare_token");
+    const savedUser = localStorage.getItem("jeevancare_user");
+
+    const mainContainer = document.getElementById("mainContainer");
+
+    const nameElement = document.getElementById("doctorName");
+    const mobileElement = document.getElementById("doctorMobile");
+    const emailElement = document.getElementById("doctorEmail");
+    const statusElement = document.getElementById("verificationStatus");
+
+    const emailBtn = document.getElementById("emailBtn");
+    const sentEmailBtn = document.getElementById("sentEmailBtn");
+    const message = document.getElementById("message");
+
+    const approvalPopup = document.getElementById("approvalPopup");
+    const closePopupBtn = document.getElementById("closePopupBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    let user = null;
+
+    try {
+        user = savedUser ? JSON.parse(savedUser) : null;
+    } catch (error) {
+        user = null;
+    }
+
+    function showMessage(text, type) {
+        message.textContent = text;
+        message.className = "message " + type;
+    }
+
+    // Require a logged-in doctor account
+    if (!token || !user || user.role !== "doctor") {
+
+        mainContainer.innerHTML = `
+            <h1>Doctor Login Required</h1>
+            <p class="description">
+                Please log in to your doctor account to continue verification.
+            </p>
+            <button
+                type="button"
+                class="email-btn"
+                id="goToLoginBtn"
+            >
+                Go to Login
+            </button>
+        `;
+
+        document.getElementById("goToLoginBtn").addEventListener(
+            "click",
+            function () {
+                window.location.href = "login.html";
+            }
+        );
+
+        return;
+    }
+
+    // Read details from the logged-in user's saved data
+    const name = user.name || user.full_name || "Not available";
+    const mobile =
+        user.mobile ||
+        user.phone ||
+        user.phone_number ||
+        "Not available";
+
+    const email = user.email || "Not available";
+
+    nameElement.textContent = name;
+    mobileElement.textContent = mobile;
+    emailElement.textContent = email;
+
+    // Open an email draft
+    emailBtn.addEventListener("click", function () {
+
+        const recipient = "rishuraaz2004@gmail.com";
+
+        const subject =
+            "JeevanCare Doctor Verification - " + name;
+
+        const body =
+`Dear JeevanCare Admin,
+
+I am submitting my doctor verification request.
+
+Doctor Name: ${name}
+Registered Mobile: ${mobile}
+Registered Email: ${email}
+
+I will attach my medical registration certificate and qualification documents for verification.
+
+Please review my documents and update my verification status.
+
+Thank you,
+${name}`;
+
+        const mailto =
+            "mailto:" + recipient +
+            "?subject=" + encodeURIComponent(subject) +
+            "&body=" + encodeURIComponent(body);
+
+        // This opens the user's configured email application.
+        // It does not send the email automatically.
+        window.location.href = mailto;
+
+        sentEmailBtn.style.display = "block";
+
+        showMessage(
+            "Your email draft has been requested. If your email app opens, attach your certificates and press Send. Then return here.",
+            "success"
+        );
+    });
+
+    // Show the popup after the doctor confirms manually
+    sentEmailBtn.addEventListener("click", function () {
+
+        statusElement.textContent = "Pending admin review";
+
+        approvalPopup.style.display = "flex";
+
+    });
+
+    // Close the popup
+    closePopupBtn.addEventListener("click", function () {
+        approvalPopup.style.display = "none";
+    });
+
+    // Close the popup if the user clicks outside the card
+    approvalPopup.addEventListener("click", function (event) {
+        if (event.target === approvalPopup) {
+            approvalPopup.style.display = "none";
+        }
+    });
+
+    // Close popup with Escape key
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            approvalPopup.style.display = "none";
+        }
+    });
+
+    // Logout
+    logoutBtn.addEventListener("click", function () {
+
+        localStorage.removeItem("jeevancare_token");
+        localStorage.removeItem("jeevancare_user");
+
+        window.location.href = "login.html";
+    });
+
+});
+</script>
+
+</body>
+</html>

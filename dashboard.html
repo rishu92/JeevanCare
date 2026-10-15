@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | JeevanCare</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <!-- BACKGROUND -->
+    <div class="bg-glow glow-one"></div>
+    <div class="bg-glow glow-two"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">JC</div>
+            <div>
+                <h2>JeevanCare</h2>
+                <span>Healthcare for everyone</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="doctor.html" class="nav-item">
+                <span class="nav-icon">＋</span>
+                <span>Consult Doctor</span>
+            </a>
+            <a href="ai-assistant.html" class="nav-item">
+                <span class="nav-icon">✦</span>
+                <span>AI Health Assistant</span>
+            
+<a href="emergency.html" class="nav-item">
+    <span class="nav-icon">🚨</span>
+    <span>Emergency</span>
+</a>
+
+            </a>
+            <a href="profile.html" class="nav-item">
+                <span class="nav-icon">◉</span>
+                <span>My Profile</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="help-card">
+                <div class="help-icon">?</div>
+                <div>
+                    <strong>Need help?</strong>
+                    <p>We're here for you.</p>
+                </div>
+            </div>
+
+            <button id="logoutBtn" class="logout-btn">
+                <span>↪</span>
+                Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- TOP BAR -->
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">JEEVANCARE HEALTH PORTAL</p>
+
+                <h1>
+                    <span id="greetingText">Good morning</span>,
+                    <span id="userName">there</span> 👋
+                </h1>
+
+                <p class="subtitle">
+                    Your health, your care, all in one place.
+                </p>
+            </div>
+
+            <div class="topbar-actions">
+                <button class="notification-btn">
+                    ♢
+                    <span class="notification-dot"></span>
+                </button>
+
+                <div class="profile-mini">
+                    <div class="avatar" id="userAvatar">R</div>
+                    <div>
+                        <strong id="profileName">User</strong>
+                        <span id="profileRole">Patient</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- HEALTH OVERVIEW -->
+        <section class="overview-grid">
+            <div class="welcome-card">
+                <div class="welcome-content">
+                    <span class="status-pill">● You're doing great</span>
+
+                    <h2>
+                        Take care of yourself,
+                        <br>
+                        one day at a time.
+                    </h2>
+
+                    <p>
+                        Get personalized health guidance,
+                        consult doctors and manage your
+                        healthcare journey from one place.
+                    </p>
+
+                    <button
+                        class="primary-btn"
+                        onclick="window.location.href='doctor.html'">
+                        Consult a Doctor
+                        <span>→</span>
+                    </button>
+                </div>
+
+                <div class="welcome-orb">
+                    <div class="orb-ring ring-one"></div>
+                    <div class="orb-ring ring-two"></div>
+                    <div class="heart-symbol">+</div>
+                </div>
+            </div>
+
+            <div class="quick-card">
+                <div class="card-top">
+                    <div class="card-icon ai-icon">✦</div>
+                    <span class="card-label">AI ASSISTANT</span>
+                </div>
+
+                <h3>Have a health question?</h3>
+
+                <p>
+                    Get quick, safe and easy-to-understand
+                    health guidance.
+                </p>
+
+                <button
+                    class="outline-btn"
+                    onclick="window.location.href='ai-assistant.html'">
+                    Ask AI
+                    <span>→</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- QUICK ACTIONS -->
+        <section class="section">
+            <div class="section-heading">
+                <div>
+                    <span class="section-label">QUICK ACTIONS</span>
+                    <h2>What would you like to do?</h2>
+                </div>
+            </div>
+
+            <div class="action-grid">
+                <div
+                    class="action-card"
+                    onclick="window.location.href='doctor.html'">
+
+                    <div class="action-icon doctor-icon">+</div>
+
+                    <div>
+                        <h3>Consult a Doctor</h3>
+                        <p>
+                            Talk to a healthcare professional
+                            from anywhere.
+                        </p>
+                    </div>
+
+                    <span class="action-arrow">→</span>
+                </div>
+
+                <div
+                    class="action-card"
+                    onclick="window.location.href='ai-assistant.html'">
+
+                    <div class="action-icon ai-icon">✦</div>
+
+                    <div>
+                        <h3>AI Health Assistant</h3>
+                        <p>
+                            Get preliminary health guidance
+                            anytime.
+                        </p>
+                    </div>
+
+                    <span class="action-arrow">→</span>
+                </div>
+
+                <div
+                    class="action-card"
+                    onclick="window.location.href='profile.html'">
+
+                    <div class="action-icon profile-icon">◉</div>
+
+                    <div>
+                        <h3>My Profile</h3>
+                        <p>
+                            Manage your personal information
+                            and preferences.
+                        </p>
+                    </div>
+
+                    <span class="action-arrow">→</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- HEALTH SAFETY -->
+        <section class="section">
+            <div class="section-heading">
+                <div>
+                    <span class="section-label">HEALTH & SAFETY</span>
+                    <h2>Important resources</h2>
+                </div>
+            </div>
+
+            <div class="resource-grid">
+                <div class="resource-card emergency-card">
+                    <div class="resource-icon">!</div>
+
+                    <div>
+                        <span class="resource-label">EMERGENCY</span>
+                        <h3>Need immediate help?</h3>
+                        <p>
+                            For life-threatening emergencies,
+                            contact emergency services immediately.
+                        </p>
+                    </div>
+
+                    <a href="tel:112" class="emergency-btn">
+                        Call 112
+                    </a>
+                </div>
+
+                <div class="resource-card safety-card">
+                    <div class="resource-icon">✓</div>
+
+                    <div>
+                        <span class="resource-label">SAFETY FIRST</span>
+                        <h3>AI guidance is not a diagnosis</h3>
+                        <p>
+                            Always consult a qualified healthcare
+                            professional for serious or worsening symptoms.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MY CONSULTATIONS -->
+        <section class="section consultations-section">
+            <div class="section-heading">
+                <div>
+                    <span class="section-label">MY HEALTHCARE</span>
+                    <h2>My Consultations</h2>
+                </div>
+
+                <a href="doctor.html" class="view-doctors-btn">
+                    Find a Doctor →
+                </a>
+            </div>
+
+            <div id="consultationsList" class="consultations-list">
+                <div class="consultations-loading">
+                    <div class="mini-spinner"></div>
+                    <span>Loading your consultations...</span>
+                </div>
+            </div>
+
+            <!-- EMPTY STATE -->
+            <div
+                id="noConsultations"
+                class="consultations-empty"
+                style="display: none;">
+
+                <div class="empty-consult-icon">+</div>
+                <h3>No consultations yet</h3>
+
+                <p>
+                    Your doctor consultation requests
+                    will appear here.
+                </p>
+
+                <a href="doctor.html" class="primary-btn">
+                    Consult a Doctor
+                    <span>→</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="dashboard-footer">
+            <div>
+                <strong>JeevanCare</strong>
+                <span>AI-assisted healthcare for everyone.</span>
+            </div>
+
+            <span>© 2026 JeevanCare</span>
+        </footer>
+    </main>
+
+    <!-- JAVASCRIPT -->
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

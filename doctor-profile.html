@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Doctor Profile | JeevanCare</title>
+
+    <link
+        rel="stylesheet"
+        href="css/doctor-profile.css"
+    >
+</head>
+
+<body>
+
+    <!-- BACKGROUND -->
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+    <!-- HEADER -->
+    <header class="profile-header">
+
+        <a
+            href="doctor-dashboard.html"
+            class="back-link"
+        >
+            ← Doctor Dashboard
+        </a>
+
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                +
+            </div>
+
+            <div>
+                <h1>JeevanCare</h1>
+                <span>Doctor Profile</span>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+    <main class="profile-container">
+
+
+        <!-- PAGE INTRO -->
+        <section class="page-intro">
+
+            <p class="section-label">
+                PROFESSIONAL PROFILE
+            </p>
+
+            <h2>
+                Your Doctor Profile
+            </h2>
+
+            <p>
+                Keep your professional information
+                updated so patients can understand
+                your expertise and availability.
+            </p>
+
+        </section>
+
+
+        <!-- PROFILE CARD -->
+        <section class="profile-card">
+
+
+            <!-- PROFILE HEADER -->
+            <div class="profile-card-header">
+
+                <div
+                    class="large-avatar"
+                    id="doctorAvatar"
+                >
+                    D
+                </div>
+
+                <div>
+
+                    <h3 id="doctorName">
+                        Doctor
+                    </h3>
+
+                    <p id="doctorEmail">
+                        Doctor account
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- FORM -->
+            <form
+                id="doctorProfileForm"
+                class="profile-form"
+            >
+
+
+                <!-- SPECIALIZATION -->
+                <div class="form-group">
+
+                    <label for="specialization">
+                        Specialization
+                    </label>
+
+                    <input
+                        type="text"
+                        id="specialization"
+                        placeholder="e.g. General Physician"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- QUALIFICATION -->
+                <div class="form-group">
+
+                    <label for="qualification">
+                        Qualification
+                    </label>
+
+                    <input
+                        type="text"
+                        id="qualification"
+                        placeholder="e.g. MBBS, MD"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- TWO COLUMN -->
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="experience">
+                            Experience (Years)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="experience"
+                            min="0"
+                            max="60"
+                            placeholder="5"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="fee">
+                            Consultation Fee (₹)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="fee"
+                            min="0"
+                            placeholder="299"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- LANGUAGE -->
+                <div class="form-group">
+
+                    <label for="language">
+                        Languages
+                    </label>
+
+                    <input
+                        type="text"
+                        id="language"
+                        placeholder="English/Hindi"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CITY -->
+                <div class="form-group">
+
+                    <label for="city">
+                        City
+                    </label>
+
+                    <input
+                        type="text"
+                        id="city"
+                        placeholder="Delhi"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- AVAILABILITY -->
+                <div class="form-group">
+
+                    <label for="availability">
+                        Availability
+                    </label>
+
+                    <select
+                        id="availability"
+                        required
+                    >
+
+                        <option value="available">
+                            Available
+                        </option>
+
+                        <option value="busy">
+                            Busy
+                        </option>
+
+                        <option value="offline">
+                            Offline
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- MESSAGE -->
+                <div
+                    id="profileMessage"
+                    class="profile-message"
+                ></div>
+
+
+                <!-- SAVE -->
+                <button
+                    type="submit"
+                    id="saveProfileBtn"
+                    class="save-btn"
+                >
+                    Save Changes
+                    <span>→</span>
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <script src="js/doctor-profile.js"></script>
+
+</body>
+
+</html>

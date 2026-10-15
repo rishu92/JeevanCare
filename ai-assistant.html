@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Health Assistant | JeevanCare</title>
+
+    <link rel="stylesheet" href="css/ai.css">
+
+    <style>
+        /* Provider selector */
+        .ai-provider-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 20px 0 12px;
+        }
+
+        .ai-provider-row label {
+            color: #d8e7f3;
+            font-size: 14px;
+        }
+
+        .ai-provider-row select {
+            padding: 10px 14px;
+            color: #f1f5f9;
+            background: #0d2033;
+            border: 1px solid #17657a;
+            border-radius: 10px;
+            font: inherit;
+            outline: none;
+        }
+
+        /* Chat form */
+        .ai-input-form {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 14px;
+            background: #0d1d30;
+            border-top: 1px solid #243b50;
+        }
+
+        .ai-input-form textarea {
+            flex: 1 1 220px;
+            min-width: 0;
+            min-height: 46px;
+            max-height: 130px;
+            padding: 12px 14px;
+            resize: vertical;
+            box-sizing: border-box;
+            color: #f1f5f9;
+            background: #142a40;
+            border: 1px solid #31516b;
+            border-radius: 10px;
+            font: inherit;
+            outline: none;
+        }
+
+        .ai-input-form textarea::placeholder {
+            color: #9eb3c7;
+        }
+
+        .ai-input-form textarea:focus {
+            border-color: #35c7dc;
+        }
+
+        .ai-input-form button {
+            min-height: 46px;
+            padding: 0 20px;
+            color: #061522;
+            background: #35c7dc;
+            border: none;
+            border-radius: 10px;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .ai-input-form button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        /* Keep chat messages inside the chat window */
+        .chat-messages {
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        /* History */
+        .history-item {
+            padding: 14px;
+            border-bottom: 1px solid rgba(130, 170, 200, 0.15);
+        }
+
+        .history-question {
+            color: #e4edf6;
+            overflow-wrap: anywhere;
+        }
+
+        .history-date {
+            margin-top: 6px;
+            color: #8fa7bd;
+            font-size: 12px;
+        }
+
+        .history-empty,
+        .history-loading {
+            padding: 16px;
+            color: #a9bfd2;
+            font-size: 14px;
+        }
+
+        .refresh-history {
+            cursor: pointer;
+        }
+
+        @media (max-width: 520px) {
+            .ai-input-form {
+                padding: 10px;
+            }
+
+            .ai-input-form textarea {
+                flex-basis: 100%;
+                width: 100%;
+            }
+
+            .ai-input-form button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ai-bg-glow glow-one"></div>
+    <div class="ai-bg-glow glow-two"></div>
+
+    <!-- HEADER -->
+    <header class="ai-header">
+
+        <a href="dashboard.html" class="back-btn">
+            ← Dashboard
+        </a>
+
+        <div class="ai-brand">
+            <div class="ai-logo">✦</div>
+
+            <div>
+                <strong>JeevanCare AI</strong>
+                <span>Health Assistant</span>
+            </div>
+        </div>
+
+        <div class="ai-status">
+            <span class="status-dot"></span>
+            Available
+        </div>
+
+    </header>
+
+    <!-- MAIN -->
+    <main class="ai-container">
+
+        <!-- INTRO -->
+        <section class="ai-intro">
+
+            <div class="intro-icon">✦</div>
+
+            <p class="intro-label">
+                AI HEALTH ASSISTANT
+            </p>
+
+            <h1>How are you feeling today?</h1>
+
+            <p class="intro-text">
+                Describe your symptoms or ask a general health question.
+                I'll provide easy-to-understand guidance to help you decide
+                what to do next.
+            </p>
+
+        </section>
+
+        <!-- AI PROVIDER: ONLY ONE SELECTOR -->
+        <div class="ai-provider-row">
+
+            <label for="aiProvider">
+                Choose assistant
+            </label>
+
+            <select id="aiProvider" name="aiProvider">
+                <option value="local">JeevanCare AI</option>
+                <option value="openai">ChatGPT</option>
+                <option value="gemini">Google Gemini</option>
+            </select>
+
+        </div>
+
+        <!-- CHAT CARD -->
+        <section class="chat-card">
+
+            <!-- ONLY ONE CHAT MESSAGES CONTAINER -->
+            <div id="chatMessages" class="chat-messages">
+
+                <div class="message ai-message">
+
+                    <div class="message-avatar">✦</div>
+
+                    <div class="message-content">
+
+                        <span class="message-name">
+                            JeevanCare AI
+                        </span>
+
+                        <p>
+                            Hello! I'm here to help you understand your
+                            symptoms.
+                            <br><br>
+                            Tell me what you're experiencing, and I'll guide
+                            you with general health information.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- MESSAGE FORM: ONLY ONE FORM -->
+            <form id="aiForm" class="ai-input-form">
+
+                <textarea
+                    id="aiInput"
+                    name="message"
+                    placeholder="Ask your health question..."
+                    rows="1"
+                    maxlength="2000"
+                    required
+                    aria-label="Enter your health question"
+                ></textarea>
+
+                <button type="submit" id="sendAiBtn">
+                    Send
+                </button>
+
+            </form>
+
+            <div class="chat-disclaimer">
+                <span>ⓘ</span>
+                AI guidance is for informational purposes only and is not
+                a medical diagnosis or prescription.
+            </div>
+
+        </section>
+
+        <!-- QUICK QUESTIONS -->
+        <section class="quick-section">
+
+            <p>TRY ASKING</p>
+
+            <div class="quick-questions">
+
+                <button
+                    type="button"
+                    class="quick-question"
+                    data-question="I have a headache and mild fever. What should I do?">
+                    🤒 Headache &amp; fever
+                </button>
+
+                <button
+                    type="button"
+                    class="quick-question"
+                    data-question="I have been feeling very tired recently. What could be the reason?">
+                    😴 Feeling tired
+                </button>
+
+                <button
+                    type="button"
+                    class="quick-question"
+                    data-question="I have a cough and sore throat. What can I do?">
+                    😷 Cough &amp; sore throat
+                </button>
+
+                <button
+                    type="button"
+                    class="quick-question"
+                    data-question="What are some simple ways to stay healthy?">
+                    ❤️ General health
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- EMERGENCY -->
+        <section class="emergency-notice">
+
+            <div class="emergency-symbol">!</div>
+
+            <div>
+                <strong>Medical emergency?</strong>
+
+                <p>
+                    If you have severe breathing difficulty, chest pain,
+                    unconsciousness or another life-threatening emergency,
+                    call 112 immediately.
+                </p>
+            </div>
+
+            <a href="tel:112">Call 112</a>
+
+        </section>
+
+        <!-- CHAT HISTORY: ONLY ONE OF EACH ID -->
+        <section class="history-section">
+
+            <div class="history-heading">
+
+                <div>
+                    <p>YOUR ACTIVITY</p>
+                    <h2>Recent conversations</h2>
+                </div>
+
+                <button
+                    type="button"
+                    id="refreshHistory"
+                    class="refresh-history">
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+            <div id="chatHistory" class="chat-history">
+                <div class="history-loading">
+                    No conversations yet.
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Load the JavaScript only once -->
+    <script src="js/ai.js"></script>
+
+</body>
+</html>

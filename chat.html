@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#071522">
+    <title>Consultation Chat | JeevanCare</title>
+    <link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+    <div class="grid-bg" aria-hidden="true"></div>
+
+    <header class="app-header">
+        <a href="dashboard.html" id="backLink" class="back-link">
+            <span class="back-icon" aria-hidden="true">←</span>
+            <span>Back to dashboard</span>
+        </a>
+
+        <a class="brand" href="dashboard.html" aria-label="JeevanCare home">
+            <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 48 48" role="img">
+                    <path d="M24 10v28M10 24h28" />
+                    <circle cx="24" cy="24" r="20" />
+                </svg>
+            </span>
+            <span class="brand-copy">
+                <strong>Jeevan<span>Care</span></strong>
+                <small>CARE THAT CONNECTS</small>
+            </span>
+        </a>
+
+        <div class="secure-pill">
+            <span class="secure-dot"></span>
+            <span>Private chat</span>
+        </div>
+    </header>
+
+    <main class="chat-shell">
+        <div class="page-intro">
+            <div>
+                <div class="eyebrow"><span class="eyebrow-line"></span> YOUR CARE, CONNECTED</div>
+                <h1>Consultation <span>room</span></h1>
+                <p>A private space to talk with your healthcare professional.</p>
+            </div>
+            <div class="privacy-chip">
+                <span aria-hidden="true">✦</span>
+                Secure conversation
+            </div>
+        </div>
+
+        <section class="chat-info" aria-label="Consultation details">
+            <div class="person-avatar-wrap">
+                <div class="person-avatar" id="personAvatar">?</div>
+                <span class="avatar-presence" aria-hidden="true"></span>
+            </div>
+
+            <div class="person-details">
+                <div class="person-name-line">
+                    <h2 id="personName">Consultation Chat</h2>
+                    <span class="verified-mark" title="JeevanCare participant">✓</span>
+                </div>
+                <p id="personRole">Loading participant details...</p>
+                <div class="participant-caption">
+                    <span class="tiny-shield" aria-hidden="true">◆</span>
+                    Your consultation participant
+                </div>
+            </div>
+
+            <div class="consultation-summary">
+                <span class="summary-label">CONSULTATION STATUS</span>
+                <div class="consultation-status" id="consultationStatus">Loading...</div>
+            </div>
+        </section>
+
+        <section class="chat-card" aria-label="Messages">
+            <div class="chat-card-topline">
+                <div class="conversation-title">
+                    <span class="conversation-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2v-5.5A7.5 7.5 0 1 1 20 11.5Z"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <h3>Conversation</h3>
+                        <p>Messages about your consultation</p>
+                    </div>
+                </div>
+                <div class="live-label"><span></span> CHAT ACTIVE</div>
+            </div>
+
+            <div class="chat-date-divider"><span>MESSAGES</span></div>
+
+            <div id="chatMessages" class="chat-messages" aria-live="polite" aria-relevant="additions text">
+                <div class="chat-loading">
+                    <div class="spinner"></div>
+                    <strong>Preparing your conversation</strong>
+                    <span>Your messages will appear here.</span>
+                </div>
+            </div>
+
+            <div class="composer-wrap">
+                <form id="chatForm" class="chat-input-area">
+                    <div class="composer-leading-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg>
+                    </div>
+                    <label class="sr-only" for="chatInput">Type your message</label>
+                    <textarea
+                        id="chatInput"
+                        placeholder="Write a message..."
+                        maxlength="1000"
+                        rows="1"
+                        autocomplete="off"
+                        aria-label="Type your message"
+                    ></textarea>
+                    <div class="composer-actions">
+                        <span class="enter-hint">Enter to send · Shift + Enter for a new line</span>
+                        <button type="submit" id="sendMessageBtn" class="send-btn" title="Send message" aria-label="Send message">
+                            <span>Send message</span>
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="m5 12 14-7-4.5 14-3-5-6.5-2Z"/>
+                                <path d="M11.5 14 19 5"/>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <div class="composer-footer">
+                    <span class="composer-lock" aria-hidden="true">▣</span>
+                    <span>Keep your conversation respectful and relevant to your care.</span>
+                    <span class="character-limit">Max 1000 characters</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="chat-notice">
+            <div class="notice-icon" aria-hidden="true">i</div>
+            <div class="notice-copy">
+                <h3>A quick health reminder</h3>
+                <p>This chat supports your consultation and is not an emergency service. If symptoms are severe or urgent, seek immediate medical attention or call <strong>112</strong>.</p>
+            </div>
+            <span class="notice-spark" aria-hidden="true">✦</span>
+        </section>
+
+        <footer class="page-footer">
+            <span>© JeevanCare · Healthcare for everyone</span>
+            <span><i></i> Designed for a more connected care experience</span>
+        </footer>
+    </main>
+
+    <script src="js/chat.js"></script>
+</body>
+</html>

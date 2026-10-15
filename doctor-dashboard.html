@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Doctor Dashboard | JeevanCare</title>
+
+    <link
+        rel="stylesheet"
+        href="css/doctor-dashboard.css"
+    >
+</head>
+
+<body>
+
+    <!-- BACKGROUND -->
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                +
+            </div>
+
+            <div>
+                <h1>JeevanCare</h1>
+                <span>Doctor Portal</span>
+            </div>
+
+        </div>
+
+
+<div class="doctor-profile">
+
+    <a
+        href="doctor-profile.html"
+        class="doctor-profile-link"
+        title="Edit Doctor Profile"
+    >
+
+        <div
+            class="doctor-avatar"
+            id="doctorAvatar"
+        >
+            D
+        </div>
+
+        <div class="doctor-info">
+
+            <strong id="doctorName">
+                Doctor
+            </strong>
+
+            <span id="doctorSpecialization">
+                Medical Specialist
+            </span>
+
+        </div>
+
+    </a>
+
+
+    <button
+        id="logoutBtn"
+        class="logout-btn"
+    >
+        Logout
+    </button>
+
+</div>
+    </header>
+
+
+
+    <!-- MAIN -->
+    <main class="dashboard-container">
+
+
+        <!-- WELCOME -->
+        <section class="welcome-section">
+
+            <div>
+
+                <p class="section-label">
+                    DOCTOR DASHBOARD
+                </p>
+
+                <h2>
+                    Welcome back,
+                    <span id="welcomeDoctor">
+                        Doctor
+                    </span>
+                </h2>
+
+                <p>
+                    Manage your patient consultation
+                    requests from one place.
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-icon">
+                +
+            </div>
+
+        </section>
+
+
+
+        <!-- STATS -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Total Requests
+                </span>
+
+                <strong id="totalRequests">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Pending
+                </span>
+
+                <strong id="pendingRequests">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Accepted
+                </span>
+
+                <strong id="acceptedRequests">
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- CONSULTATION REQUESTS -->
+        <section class="requests-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        PATIENT CARE
+                    </p>
+
+                    <h2>
+                        Consultation Requests
+                    </h2>
+
+                </div>
+
+
+                <button
+                    id="refreshRequests"
+                    class="refresh-btn"
+                >
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+
+
+            <!-- LOADING -->
+            <div
+                id="requestsLoading"
+                class="loading-box"
+            >
+
+                <div class="spinner"></div>
+
+                <span>
+                    Loading consultation requests...
+                </span>
+
+            </div>
+
+
+
+            <!-- REQUESTS -->
+            <div
+                id="requestsList"
+                class="requests-list"
+            >
+            </div>
+
+
+
+            <!-- EMPTY -->
+            <div
+                id="noRequests"
+                class="empty-box"
+                style="display: none;"
+            >
+
+                <div class="empty-icon">
+                    ✓
+                </div>
+
+                <h3>
+                    No consultation requests
+                </h3>
+
+                <p>
+                    New patient consultation requests
+                    will appear here.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- SCRIPT -->
+    <script src="js/doctor-dashboard.js"></script>
+
+</body>
+
+</html>

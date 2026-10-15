@@ -1,0 +1,1169 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emergency Services | JeevanCare</title>
+
+<link rel="stylesheet"
+ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+:root {
+  --bg: #071321;
+  --sidebar: #0b1929;
+  --card: #102238;
+  --border: #20374e;
+  --text: #edf6ff;
+  --muted: #9aafc5;
+  --cyan: #43d9e8;
+  --teal: #28c9b7;
+  --red: #ff646e;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+  padding: 28px 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px 35px;
+}
+
+.brand-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--cyan), var(--teal));
+  color: #071321;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.brand h2 { font-size: 20px; }
+
+.brand p {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.nav-title {
+  color: #6e879f;
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding: 0 12px;
+  margin-bottom: 14px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 13px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 14px;
+  transition: .2s;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  color: var(--cyan);
+  background: #123040;
+}
+
+.nav-item.active {
+  border: 1px solid #205267;
+}
+
+.nav-icon {
+  width: 23px;
+  text-align: center;
+  font-size: 19px;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  padding-top: 30px;
+}
+
+.help-card {
+  padding: 15px;
+  border: 1px solid var(--border);
+  background: #0e2033;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+
+.help-card p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 6px;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 9px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+  padding: 35px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.eyebrow,
+.section-label {
+  color: var(--cyan);
+  font-size: 11px;
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: clamp(25px, 3vw, 35px);
+  margin-bottom: 10px;
+}
+
+.subtitle,
+.section-heading p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.back-btn {
+  text-decoration: none;
+  color: var(--cyan);
+  border: 1px solid #285268;
+  padding: 11px 16px;
+  border-radius: 9px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.emergency-banner {
+  background: linear-gradient(120deg, #421d30, #251c32);
+  border: 1px solid #713448;
+  border-radius: 17px;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.banner-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.banner-icon {
+  min-width: 49px;
+  height: 49px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: #702e42;
+  font-size: 25px;
+}
+
+.emergency-banner h2 {
+  font-size: 20px;
+  margin-bottom: 9px;
+}
+
+.emergency-banner p {
+  color: #d7b8c3;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.call-112 {
+  background: var(--red);
+  color: #1e1017;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 14px 23px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.section-heading { margin-bottom: 19px; }
+
+.section-heading h2 {
+  font-size: 23px;
+  margin-bottom: 8px;
+}
+
+.emergency-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.service-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  min-height: 225px;
+  transition: .2s;
+}
+
+.service-card:hover {
+  transform: translateY(-3px);
+  border-color: #3b7488;
+}
+
+.service-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 19px;
+}
+
+.service-icon {
+  width: 49px;
+  height: 49px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  background: #173e47;
+}
+
+.service-tag {
+  font-size: 10px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: #183b43;
+  color: var(--cyan);
+}
+
+.service-card h3 {
+  font-size: 17px;
+  margin-bottom: 9px;
+}
+
+.service-card p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+  margin-bottom: 18px;
+  flex: 1;
+}
+
+.service-number {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--cyan);
+  margin-bottom: 15px;
+}
+
+.service-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 12px;
+  background: #123447;
+  color: var(--cyan);
+  border: 1px solid #27586c;
+  border-radius: 9px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.service-btn.red-btn {
+  background: #4a2635;
+  border-color: #713448;
+  color: #ff929a;
+}
+
+/* NEARBY MAP */
+
+.nearby-map-section {
+  margin-top: 36px;
+}
+
+.map-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.map-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.map-toolbar input,
+.map-toolbar select {
+  flex: 1;
+  min-width: 170px;
+  padding: 12px;
+  background: #091a2a;
+  border: 1px solid #2a455d;
+  border-radius: 9px;
+  color: var(--text);
+}
+
+.map-action {
+  padding: 12px 15px;
+  border: 1px solid #286174;
+  border-radius: 9px;
+  background: #123447;
+  color: var(--cyan);
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.map-action.primary {
+  background: var(--cyan);
+  color: #061521;
+}
+
+.map-action:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+#nearbyMap {
+  width: 100%;
+  height: 440px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0b1929;
+}
+
+.map-status {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 12px;
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+.legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.map-results {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.map-result {
+  background: #0b1b2c;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 14px;
+  overflow-wrap: anywhere;
+}
+
+.map-result h3 {
+  font-size: 14px;
+  margin-bottom: 7px;
+}
+
+.map-result p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.map-result a {
+  color: var(--cyan);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: #102238;
+  color: #edf6ff;
+}
+
+.leaflet-popup-content a { color: #43d9e8; }
+
+.safety-note {
+  margin-top: 30px;
+  padding: 20px;
+  background: #102a34;
+  border: 1px solid #22505b;
+  border-radius: 13px;
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+}
+
+.safety-note h3 {
+  font-size: 14px;
+  margin-bottom: 7px;
+}
+
+.safety-note p {
+  font-size: 12px;
+  color: #a9c2d0;
+  line-height: 1.8;
+}
+
+.footer {
+  margin-top: 35px;
+  padding: 20px 0 5px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.footer strong { color: var(--text); }
+
+@media (max-width: 1100px) {
+  .emergency-grid,
+  .map-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .main-content { padding: 25px; }
+}
+
+@media (max-width: 760px) {
+  .layout { flex-direction: column; }
+
+  .sidebar {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .brand { padding-bottom: 17px; }
+
+  .sidebar-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sidebar-bottom { display: none; }
+
+  .main-content { padding: 22px 16px; }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .emergency-banner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .call-112 {
+    width: 100%;
+    text-align: center;
+  }
+
+  .emergency-grid,
+  .map-results {
+    grid-template-columns: 1fr;
+  }
+
+  #nearbyMap { height: 350px; }
+
+  .map-toolbar input,
+  .map-toolbar select {
+    min-width: 100%;
+  }
+
+  .footer { flex-direction: column; }
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">JC</div>
+      <div>
+        <h2>JeevanCare</h2>
+        <p>Healthcare for everyone</p>
+      </div>
+    </div>
+
+    <p class="nav-title">MAIN MENU</p>
+
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="nav-item">
+        <span class="nav-icon">⌂</span> Dashboard
+      </a>
+      <a href="doctor.html" class="nav-item">
+        <span class="nav-icon">＋</span> Consult Doctor
+      </a>
+      <a href="ai-assistant.html" class="nav-item">
+        <span class="nav-icon">✦</span> AI Health Assistant
+      </a>
+      <a href="emergency.html" class="nav-item active">
+        <span class="nav-icon">🚨</span> Emergency
+      </a>
+      <a href="profile.html" class="nav-item">
+        <span class="nav-icon">◉</span> My Profile
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="help-card">
+        <strong>Need help?</strong>
+        <p>For a serious emergency, contact emergency services immediately.</p>
+      </div>
+      <button class="logout-btn" id="logoutBtn">↪ Logout</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">JEEVANCARE HEALTH PORTAL</p>
+        <h1>Emergency Services 🚨</h1>
+        <p class="subtitle">
+          Important emergency contacts and healthcare resources, all in one place.
+        </p>
+      </div>
+      <a href="dashboard.html" class="back-btn">← Dashboard</a>
+    </header>
+
+    <section class="emergency-banner">
+      <div class="banner-content">
+        <div class="banner-icon">⚠️</div>
+        <div>
+          <h2>Facing a medical emergency?</h2>
+          <p>
+            For an immediate emergency in India, call 112.
+            Tell the operator your location and what kind of help you need.
+          </p>
+        </div>
+      </div>
+      <a href="tel:112" class="call-112">☎ Call 112</a>
+    </section>
+
+    <section>
+      <div class="section-heading">
+        <span class="section-label">QUICK CONTACTS</span>
+        <h2>Emergency Helpline Directory</h2>
+        <p>Choose the service you need to call or find nearby facilities.</p>
+      </div>
+
+      <div class="emergency-grid">
+
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">🚑</div>
+            <span class="service-tag">MEDICAL</span>
+          </div>
+          <h3>Ambulance Service</h3>
+          <p>Request emergency medical transport. Availability can vary by state.</p>
+          <div class="service-number">108 / 102</div>
+          <a href="tel:108" class="service-btn red-btn">☎ Call 108</a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">👮</div>
+            <span class="service-tag">PUBLIC SAFETY</span>
+          </div>
+          <h3>Police Assistance</h3>
+          <p>Contact police for immediate safety concerns or urgent situations.</p>
+          <div class="service-number">112</div>
+          <a href="tel:112" class="service-btn">☎ Call 112</a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">🚒</div>
+            <span class="service-tag">FIRE SAFETY</span>
+          </div>
+          <h3>Fire Brigade</h3>
+          <p>Get help during a fire or another fire-related emergency.</p>
+          <div class="service-number">101 / 112</div>
+          <a href="tel:101" class="service-btn red-btn">☎ Call 101</a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">🩺</div>
+            <span class="service-tag">HEALTHCARE</span>
+          </div>
+          <h3>Consult a Doctor</h3>
+          <p>Explore the doctors registered on JeevanCare.</p>
+          <div class="service-number">Online</div>
+          <a href="doctor.html" class="service-btn">Find a Doctor →</a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">🧒</div>
+            <span class="service-tag">CHILD SAFETY</span>
+          </div>
+          <h3>Child Helpline</h3>
+          <p>Assistance for children in distress or in need of care and protection.</p>
+          <div class="service-number">1098</div>
+          <a href="tel:1098" class="service-btn">☎ Call 1098</a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">🛡️</div>
+            <span class="service-tag">WOMEN'S SAFETY</span>
+          </div>
+          <h3>Women Helpline</h3>
+          <p>Seek assistance for women facing violence, harassment or danger.</p>
+          <div class="service-number">181</div>
+          <a href="tel:181" class="service-btn">☎ Call 181</a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">🏥</div>
+            <span class="service-tag">NEARBY CARE</span>
+          </div>
+          <h3>Nearby Hospitals</h3>
+          <p>Search hospitals and medical facilities near your location.</p>
+          <div class="service-number">Find Nearby</div>
+          <a href="https://www.google.com/maps/search/hospitals+near+me/"
+             target="_blank" rel="noopener noreferrer" class="service-btn">
+            Open Google Maps ↗
+          </a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">🩸</div>
+            <span class="service-tag">BLOOD SERVICES</span>
+          </div>
+          <h3>Nearby Blood Banks</h3>
+          <p>Find blood banks and contact them to check availability.</p>
+          <div class="service-number">Search Nearby</div>
+          <a href="https://www.google.com/maps/search/blood+banks+near+me/"
+             target="_blank" rel="noopener noreferrer" class="service-btn">
+            Find Blood Banks ↗
+          </a>
+        </article>
+
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">📞</div>
+            <span class="service-tag">ALL EMERGENCIES</span>
+          </div>
+          <h3>National Emergency Number</h3>
+          <p>Use the emergency response number for urgent assistance.</p>
+          <div class="service-number">112</div>
+          <a href="tel:112" class="service-btn red-btn">
+            ☎ Call Emergency Services
+          </a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- NEARBY DOCTORS AND HOSPITALS MAP -->
+    <section class="nearby-map-section" id="nearbyFacilities">
+      <div class="section-heading">
+        <span class="section-label">LOCATION-BASED CARE</span>
+        <h2>Nearby Doctors & Hospitals 🗺️</h2>
+        <p>Allow location access or search a city to find nearby healthcare facilities.</p>
+      </div>
+
+      <div class="map-panel">
+        <div class="map-toolbar">
+          <input id="mapLocationSearch" type="text"
+            placeholder="Search city or area (e.g. Greater Noida)"
+            aria-label="Search city or area">
+
+          <select id="facilityType" aria-label="Facility type">
+            <option value="all">Doctors, clinics & hospitals</option>
+            <option value="doctors">Doctors & clinics</option>
+            <option value="hospitals">Hospitals only</option>
+          </select>
+
+          <button class="map-action primary" id="useMyLocation" type="button">
+            📍 Use My Location
+          </button>
+
+          <button class="map-action" id="searchMapLocation" type="button">
+            Search Area
+          </button>
+        </div>
+
+        <div id="nearbyMap" aria-label="Interactive healthcare map"></div>
+
+        <div class="map-legend">
+          <span><i class="legend-dot" style="background:#43d9e8"></i> Your location</span>
+          <span><i class="legend-dot" style="background:#ff646e"></i> Hospitals</span>
+          <span><i class="legend-dot" style="background:#28c9b7"></i> Doctors & clinics</span>
+        </div>
+
+        <p class="map-status" id="mapStatus" aria-live="polite">
+          Choose Use My Location or search for a city/area.
+        </p>
+
+        <div class="map-results" id="mapResults" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="safety-note">
+      <div>ℹ️</div>
+      <div>
+        <h3>Important Safety Information</h3>
+        <p>
+          Map listings may be incomplete and do not confirm that a facility is
+          open or has a doctor available. Call to confirm services. In a
+          life-threatening emergency in India, call 112 immediately.
+          Do not delay urgent care while using this website.
+        </p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div><strong>JeevanCare</strong> — AI-assisted healthcare for everyone.</div>
+      <span>© 2026 JeevanCare</span>
+    </footer>
+  </main>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+(function () {
+  const status = document.getElementById("mapStatus");
+  const results = document.getElementById("mapResults");
+  const input = document.getElementById("mapLocationSearch");
+  const type = document.getElementById("facilityType");
+  const locationButton = document.getElementById("useMyLocation");
+  const searchButton = document.getElementById("searchMapLocation");
+
+  if (!window.L) {
+    status.textContent = "Map could not load. Check your internet and refresh.";
+    return;
+  }
+
+  // Default map view: Delhi NCR. This is not the user's live location.
+  let center = [28.6139, 77.2090];
+  let userMarker = null;
+
+  const map = L.map("nearbyMap").setView(center, 10);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  const markers = L.layerGroup().addTo(map);
+
+  function escapeHTML(value) {
+    return String(value || "").replace(/[&<>"']/g, function (char) {
+      return {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char];
+    });
+  }
+
+  function getCoordinates(place) {
+    if (place.lat != null && place.lon != null) {
+      return [Number(place.lat), Number(place.lon)];
+    }
+
+    if (place.center) {
+      return [Number(place.center.lat), Number(place.center.lon)];
+    }
+
+    return null;
+  }
+
+  function getName(place) {
+    const tags = place.tags || {};
+    return tags.name ||
+      tags["name:en"] ||
+      tags.operator ||
+      (tags.amenity === "hospital"
+        ? "Hospital (name not listed)"
+        : "Doctor / clinic (name not listed)");
+  }
+
+  function getKind(place) {
+    const amenity = place.tags?.amenity;
+
+    if (amenity === "hospital") return "Hospital";
+    if (amenity === "doctors") return "Doctor / medical practice";
+    if (amenity === "clinic") return "Clinic";
+
+    return "Healthcare facility";
+  }
+
+  function getAddress(place) {
+    const tags = place.tags || {};
+    return [
+      tags["addr:street"],
+      tags["addr:suburb"],
+      tags["addr:city"]
+    ].filter(Boolean).join(", ") || "Address not listed";
+  }
+
+  function showResults(facilities) {
+    results.replaceChildren();
+
+    if (!facilities.length) {
+      const empty = document.createElement("article");
+      empty.className = "map-result";
+      empty.innerHTML =
+        "<h3>No facilities found</h3>" +
+        "<p>Try another area. OpenStreetMap data may be incomplete.</p>";
+      results.appendChild(empty);
+      return;
+    }
+
+    facilities.slice(0, 12).forEach(function (place) {
+      const coordinates = getCoordinates(place);
+      if (!coordinates) return;
+
+      const card = document.createElement("article");
+      card.className = "map-result";
+
+      const heading = document.createElement("h3");
+      heading.textContent = getName(place);
+
+      const description = document.createElement("p");
+      description.textContent =
+        getKind(place) + " · " + getAddress(place);
+
+      const link = document.createElement("a");
+      link.href =
+        "https://www.google.com/maps/dir/?api=1&destination=" +
+        coordinates[0] + "," + coordinates[1];
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Get Directions ↗";
+
+      card.append(heading, description, link);
+      results.appendChild(card);
+    });
+  }
+
+  async function loadFacilities(lat, lon) {
+    center = [lat, lon];
+    markers.clearLayers();
+    results.replaceChildren();
+
+    const selectedType = type.value;
+    let amenityFilter;
+
+    if (selectedType === "hospitals") {
+      amenityFilter = "hospital";
+    } else if (selectedType === "doctors") {
+      amenityFilter = "doctors|clinic";
+    } else {
+      amenityFilter = "hospital|doctors|clinic";
+    }
+
+    const query =
+      '[out:json][timeout:25];(' +
+      'node["amenity"~"^(' + amenityFilter + ')$"](around:7000,' + lat + ',' + lon + ');' +
+      'way["amenity"~"^(' + amenityFilter + ')$"](around:7000,' + lat + ',' + lon + ');' +
+      'relation["amenity"~"^(' + amenityFilter + ')$"](around:7000,' + lat + ',' + lon + ');' +
+      ');out center tags;';
+
+    status.textContent = "Searching for nearby healthcare facilities...";
+    locationButton.disabled = true;
+    searchButton.disabled = true;
+
+    try {
+      const response = await fetch(
+        "https://overpass-api.de/api/interpreter",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+          },
+          body: "data=" + encodeURIComponent(query)
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Nearby facility search is temporarily unavailable.");
+      }
+
+      const data = await response.json();
+      const facilities = (data.elements || [])
+        .filter(place => getCoordinates(place));
+
+      facilities.sort(function (a, b) {
+        const ca = getCoordinates(a);
+        const cb = getCoordinates(b);
+
+        const da = (ca[0] - lat) ** 2 + (ca[1] - lon) ** 2;
+        const db = (cb[0] - lat) ** 2 + (cb[1] - lon) ** 2;
+
+        return da - db;
+      });
+
+      facilities.forEach(function (place) {
+        const coordinates = getCoordinates(place);
+        const isHospital = place.tags?.amenity === "hospital";
+        const color = isHospital ? "#ff646e" : "#28c9b7";
+
+        const directions =
+          "https://www.google.com/maps/dir/?api=1&destination=" +
+          coordinates[0] + "," + coordinates[1];
+
+        const popupContent =
+          "<strong>" + escapeHTML(getName(place)) + "</strong><br>" +
+          escapeHTML(getKind(place)) + "<br>" +
+          escapeHTML(getAddress(place)) + "<br>" +
+          '<a target="_blank" rel="noopener noreferrer" href="' +
+          directions + '">Get Directions</a>';
+
+        L.circleMarker(coordinates, {
+          radius: 8,
+          color: color,
+          fillColor: color,
+          fillOpacity: 0.9,
+          weight: 2
+        }).addTo(markers).bindPopup(popupContent);
+      });
+
+      showResults(facilities);
+
+      status.textContent =
+        "Found " + facilities.length +
+        " mapped healthcare location(s) within approximately 7 km. " +
+        "Listings may be incomplete; call to confirm availability.";
+
+    } catch (error) {
+      status.textContent =
+        (error.message || "Could not load facilities.") +
+        " Check your internet or try Google Maps.";
+
+      results.innerHTML =
+        '<article class="map-result">' +
+        '<h3>Search temporarily unavailable</h3>' +
+        '<p>You can still search directly on Google Maps.</p>' +
+        '<a href="https://www.google.com/maps/search/hospitals+near+me/" ' +
+        'target="_blank" rel="noopener noreferrer">Hospitals near me ↗</a>' +
+        '</article>';
+
+    } finally {
+      locationButton.disabled = false;
+      searchButton.disabled = false;
+    }
+  }
+
+  function useMyLocation() {
+    if (!navigator.geolocation) {
+      status.textContent =
+        "Location is not supported by this browser. Search for an area instead.";
+      return;
+    }
+
+    status.textContent = "Requesting location permission...";
+
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        center = [lat, lon];
+        map.setView(center, 13);
+
+        if (userMarker) map.removeLayer(userMarker);
+
+        userMarker = L.circleMarker(center, {
+          radius: 9,
+          color: "#071321",
+          fillColor: "#43d9e8",
+          fillOpacity: 1,
+          weight: 3
+        }).addTo(map).bindPopup("Your current location");
+
+        userMarker.openPopup();
+        input.value = "";
+        loadFacilities(lat, lon);
+      },
+      function (error) {
+        status.textContent =
+          (error.code === 1
+            ? "Location permission was denied."
+            : "Could not get your location.") +
+          " Search for a city or area manually. Location access requires localhost or HTTPS.";
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 12000,
+        maximumAge: 60000
+      }
+    );
+  }
+
+  async function searchArea() {
+    const area = input.value.trim();
+
+    if (!area) {
+      status.textContent = "Enter a city or area name first.";
+      input.focus();
+      return;
+    }
+
+    status.textContent = "Finding the area...";
+    searchButton.disabled = true;
+
+    try {
+      const response = await fetch(
+        "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
+        encodeURIComponent(area),
+        { headers: { Accept: "application/json" } }
+      );
+
+      if (!response.ok) {
+        throw new Error("Area search is temporarily unavailable.");
+      }
+
+      const places = await response.json();
+
+      if (!places.length) {
+        throw new Error("Area not found. Try a more specific name.");
+      }
+
+      const lat = Number(places[0].lat);
+      const lon = Number(places[0].lon);
+
+      center = [lat, lon];
+      map.setView(center, 13);
+
+      if (userMarker) {
+        map.removeLayer(userMarker);
+        userMarker = null;
+      }
+
+      loadFacilities(lat, lon);
+
+    } catch (error) {
+      status.textContent = error.message || "Area search failed.";
+    } finally {
+      searchButton.disabled = false;
+    }
+  }
+
+  locationButton.addEventListener("click", useMyLocation);
+  searchButton.addEventListener("click", searchArea);
+
+  input.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") searchArea();
+  });
+
+  type.addEventListener("change", function () {
+    loadFacilities(center[0], center[1]);
+  });
+
+  // Open a default map centered on Delhi NCR.
+  setTimeout(function () {
+    map.invalidateSize();
+  }, 200);
+
+  // Load map data around the default area.
+  loadFacilities(center[0], center[1]);
+
+})();
+</script>
+
+<script>
+document.getElementById("logoutBtn")?.addEventListener("click", function () {
+  if (confirm("Are you sure you want to logout?")) {
+    localStorage.removeItem("jeevancare_token");
+    localStorage.removeItem("jeevancare_user");
+    window.location.href = "login.html";
+  }
+});
+</script>
+
+</body>
+</html>

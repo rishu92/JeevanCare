@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | JeevanCare</title>
+
+    <style>
+        /* =========================================
+           JeevanCare Login Page
+           ========================================= */
+
+        :root {
+            --bg: #06111f;
+            --bg-soft: #091827;
+            --card: rgba(14, 32, 52, 0.82);
+            --primary: #35d6c2;
+            --blue: #4aa8ff;
+            --text: #f4f8fc;
+            --muted: #8fa5ba;
+            --border: rgba(255, 255, 255, 0.08);
+            --danger: #ff6b7a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 18px;
+            font-family: Inter, Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(
+                    circle at 15% 15%,
+                    rgba(53, 214, 194, 0.10),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 85% 85%,
+                    rgba(74, 168, 255, 0.09),
+                    transparent 32%
+                ),
+                var(--bg);
+            overflow-x: hidden;
+        }
+
+        /* BACKGROUND */
+
+        .background-glow {
+            position: fixed;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            filter: blur(110px);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glow-one {
+            top: -220px;
+            left: -180px;
+            background: rgba(53, 214, 194, 0.10);
+        }
+
+        .glow-two {
+            right: -220px;
+            bottom: -220px;
+            background: rgba(74, 168, 255, 0.10);
+        }
+
+        /* BACK HOME */
+
+        .back-home {
+            position: fixed;
+            top: 25px;
+            left: 28px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.25s ease;
+        }
+
+        .back-home:hover {
+            color: var(--primary);
+        }
+
+        /* LOGIN CARD */
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .login-card {
+            padding: 38px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: linear-gradient(
+                145deg,
+                rgba(14, 32, 52, 0.90),
+                rgba(7, 20, 34, 0.86)
+            );
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.30);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            animation: cardAppear 0.5s ease;
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* BRAND */
+
+        .brand {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .brand-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 14px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                var(--blue)
+            );
+            color: #06111f;
+            font-size: 26px;
+            font-weight: 900;
+            box-shadow: 0 12px 35px rgba(53, 214, 194, 0.18);
+        }
+
+        .brand h1 {
+            font-size: 26px;
+            letter-spacing: -0.8px;
+        }
+
+        .brand h1 span {
+            color: var(--primary);
+        }
+
+        .brand p {
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* HEADING */
+
+        .login-heading {
+            margin-bottom: 25px;
+        }
+
+        .login-heading h2 {
+            font-size: 24px;
+            letter-spacing: -0.5px;
+        }
+
+        .login-heading p {
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* FORM */
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #dce7f1;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            height: 50px;
+            padding: 0 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.035);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 13px;
+            transition:
+                border-color 0.25s ease,
+                box-shadow 0.25s ease,
+                background 0.25s ease;
+        }
+
+        .input-wrapper input:focus {
+            border-color: rgba(53, 214, 194, 0.45);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 0 3px rgba(53, 214, 194, 0.06);
+        }
+
+        .input-wrapper input::placeholder {
+            color: #62788c;
+        }
+
+        /* PASSWORD */
+
+        .password-input {
+            padding-right: 55px !important;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 13px;
+            transform: translateY(-50%);
+            border: 0;
+            background: transparent;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+
+        /* OPTIONS */
+
+        .form-options {
+            display: flex;
+            justify-content: flex-end;
+            margin: 2px 0 22px;
+        }
+
+        .forgot-password {
+            border: 0;
+            background: transparent;
+            color: var(--primary);
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* ERROR / SUCCESS MESSAGE */
+
+        .form-message {
+            display: none;
+            margin-bottom: 16px;
+            padding: 11px 13px;
+            border-radius: 10px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .form-message.error {
+            display: block;
+            color: #ffb3bc;
+            background: rgba(255, 107, 122, 0.07);
+            border: 1px solid rgba(255, 107, 122, 0.16);
+        }
+
+        .form-message.success {
+            display: block;
+            color: #8ff0d2;
+            background: rgba(53, 214, 161, 0.07);
+            border: 1px solid rgba(53, 214, 161, 0.16);
+        }
+
+        /* LOGIN BUTTON */
+
+        .login-btn {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 0;
+            border-radius: 12px;
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                #43c9e8
+            );
+            color: #06111f;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 900;
+            cursor: pointer;
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                opacity 0.25s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(53, 214, 194, 0.18);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* REGISTER */
+
+        .register-link {
+            margin-top: 22px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .register-link a {
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* SECURITY NOTE */
+
+        .security-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+            color: #63798d;
+            font-size: 9px;
+            text-align: center;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 520px) {
+            body {
+                padding: 20px 14px;
+            }
+
+            .back-home {
+                top: 17px;
+                left: 17px;
+                font-size: 11px;
+            }
+
+            .login-card {
+                padding: 28px 22px;
+                border-radius: 20px;
+            }
+
+            .brand {
+                margin-bottom: 25px;
+            }
+
+            .brand-icon {
+                width: 50px;
+                height: 50px;
+                border-radius: 14px;
+            }
+
+            .brand h1 {
+                font-size: 23px;
+            }
+
+            .login-heading h2 {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+    <!-- Back -->
+    <a href="index.html" class="back-home">
+        ← Back to JeevanCare
+    </a>
+
+    <main class="login-wrapper">
+        <section class="login-card">
+
+            <!-- BRAND -->
+            <div class="brand">
+                <div class="brand-icon">+</div>
+
+                <h1>
+                    Jeevan<span>Care</span>
+                </h1>
+
+                <p>Healthcare for everyone</p>
+            </div>
+
+            <!-- HEADING -->
+            <div class="login-heading">
+                <h2>Welcome back</h2>
+                <p>Login to continue your healthcare journey.</p>
+            </div>
+
+            <!-- FORM -->
+            <form id="loginForm">
+
+                <!-- Email / Mobile -->
+                <div class="form-group">
+                    <label for="loginIdentifier">
+                        Email or Mobile Number
+                    </label>
+
+                    <div class="input-wrapper">
+                        <input
+                            type="text"
+                            id="loginIdentifier"
+                            name="identifier"
+                            placeholder="Enter email or mobile number"
+                            autocomplete="username"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+
+                    <div class="input-wrapper">
+                        <input
+                            type="password"
+                            id="loginPassword"
+                            name="password"
+                            class="password-input"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="toggle-password"
+                        >
+                            Show
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Forgot -->
+                <div class="form-options">
+                    <button
+                        type="button"
+                        id="forgotPassword"
+                        class="forgot-password"
+                    >
+                        Forgot password?
+                    </button>
+                </div>
+
+                <!-- Message -->
+                <div
+                    id="formMessage"
+                    class="form-message"
+                ></div>
+
+                <!-- Login -->
+                <button
+                    type="submit"
+                    id="loginBtn"
+                    class="login-btn"
+                >
+                    <span id="loginBtnText">Login</span>
+                    <span>→</span>
+                </button>
+
+            </form>
+
+            <!-- Register -->
+            <div class="register-link">
+                Don't have an account?
+                <a href="register.html">Create one</a>
+            </div>
+
+            <!-- Security -->
+            <div class="security-note">
+                <span>🔒</span>
+                <span>
+                    Your account is protected with secure authentication.
+                </span>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        // =========================================
+        // ELEMENTS
+        // =========================================
+
+        const loginForm = document.getElementById("loginForm");
+        const loginIdentifier = document.getElementById("loginIdentifier");
+        const loginPassword = document.getElementById("loginPassword");
+        const togglePassword = document.getElementById("togglePassword");
+        const forgotPassword = document.getElementById("forgotPassword");
+        const formMessage = document.getElementById("formMessage");
+        const loginBtn = document.getElementById("loginBtn");
+        const loginBtnText = document.getElementById("loginBtnText");
+
+        // =========================================
+        // PASSWORD TOGGLE
+        // =========================================
+
+        togglePassword.addEventListener("click", () => {
+            if (loginPassword.type === "password") {
+                loginPassword.type = "text";
+                togglePassword.textContent = "Hide";
+            } else {
+                loginPassword.type = "password";
+                togglePassword.textContent = "Show";
+            }
+        });
+
+        // =========================================
+        // MESSAGE
+        // =========================================
+
+        function showMessage(message, type = "error") {
+            formMessage.textContent = message;
+            formMessage.className = `form-message ${type}`;
+        }
+
+        function clearMessage() {
+            formMessage.textContent = "";
+            formMessage.className = "form-message";
+        }
+
+        // =========================================
+        // FORGOT PASSWORD
+        // =========================================
+
+        forgotPassword.addEventListener("click", () => {
+            alert(
+                "Password recovery will be available in a future version of JeevanCare."
+            );
+        });
+
+        // =========================================
+        // LOGIN
+        // =========================================
+
+        loginForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            clearMessage();
+
+            const identifier = loginIdentifier.value.trim();
+            const password = loginPassword.value;
+
+            // Validation
+            if (!identifier) {
+                showMessage(
+                    "Please enter your email or mobile number."
+                );
+                loginIdentifier.focus();
+                return;
+            }
+
+            if (!password) {
+                showMessage("Please enter your password.");
+                loginPassword.focus();
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage(
+                    "Password must contain at least 6 characters."
+                );
+                loginPassword.focus();
+                return;
+            }
+
+            // Loading
+            loginBtn.disabled = true;
+            loginBtnText.textContent = "Logging in...";
+
+            try {
+                const response = await fetch(
+                    "http://localhost:5000/api/auth/login",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            identifier: identifier,
+                            password: password
+                        })
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.message || "Login failed."
+                    );
+                }
+
+                if (!data.user || !data.token) {
+                    throw new Error(
+                        "Login response is missing user or token information."
+                    );
+                }
+
+                // =========================================
+                // SAVE AUTHENTICATION
+                // =========================================
+
+                localStorage.setItem(
+                    "jeevancare_token",
+                    data.token
+                );
+
+                localStorage.setItem(
+                    "jeevancare_user",
+                    JSON.stringify(data.user)
+                );
+
+                showMessage(
+                    "Login successful. Redirecting...",
+                    "success"
+                );
+
+                // =========================================
+                // REDIRECT BASED ON ROLE AND APPROVAL
+                // =========================================
+
+                setTimeout(() => {
+                    const role = String(
+                        data.user.role || ""
+                    ).toLowerCase();
+
+                    const verificationStatus = String(
+                        data.user.verification_status || "pending"
+                    ).toLowerCase();
+
+                    // Admin
+                    if (role === "admin") {
+                        window.location.href = "admin.html";
+                        return;
+                    }
+
+                    // Doctor
+                    if (role === "doctor") {
+                        if (verificationStatus === "approved") {
+                            window.location.href = "doctor-dashboard.html";
+                        } else {
+                            // Pending or rejected doctor
+                            window.location.href = "doctor-documents.html";
+                        }
+                        return;
+                    }
+
+                    // Patient
+                    window.location.href = "dashboard.html";
+
+                }, 700);
+
+            } catch (error) {
+                console.error("Login error:", error);
+
+                showMessage(
+                    error.message ||
+                    "Unable to login. Please try again."
+                );
+
+                loginBtn.disabled = false;
+                loginBtnText.textContent = "Login";
+            }
+        });
+    </script>
+
+</body>
+</html>
