@@ -33,13 +33,27 @@ JeevanCare/
 ├── backend/
 │   ├── config/
 │   ├── controllers/
+│   ├── node_modules/
 │   ├── middleware/
 │   ├── routes/
+│   └── addAdminRole.js
+│   └── checkDoctorDocuments.js
+│   └── createFirstAdmin.js
+│   └── package-lock.json
+│   └── package.json
 │   └── server.js
 ├── css/
 ├── js/
+├── node_modules/
 ├── server/
 ├── index.html
+├──ai-assistant.html
+├──chat.html
+├──doctor-dashboard.html
+├──doctor-documents.html
+├──doctor-profile.html
+├──otp.html
+├──profile.html
 ├── login.html
 ├── register.html
 ├── dashboard.html
