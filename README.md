@@ -27,42 +27,41 @@ JeevanCare is a web-based healthcare project designed to connect patients and do
 
 ## 📁 Project Structure
 
-```text
 JeevanCare/
 ├── assets/
 ├── backend/
 │   ├── config/
 │   ├── controllers/
-│   ├── node_modules/
 │   ├── middleware/
 │   ├── routes/
-│   └── addAdminRole.js
-│   └── checkDoctorDocuments.js
-│   └── createFirstAdmin.js
-│   └── package-lock.json
-│   └── package.json
+│   ├── addAdminRole.js
+│   ├── checkDoctorDocuments.js
+│   ├── createDoctorDocumentsTable.js
+│   ├── createFirstAdmin.js
+│   ├── package.json
+│   ├── package-lock.json
 │   └── server.js
 ├── css/
 ├── js/
-├── node_modules/
 ├── server/
 ├── index.html
-├──ai-assistant.html
-├──chat.html
-├──doctor-dashboard.html
-├──doctor-documents.html
-├──doctor-profile.html
-├──otp.html
-├──profile.html
-├── login.html
-├── register.html
+├── admin.html
+├── ai-assistant.html
+├── chat.html
 ├── dashboard.html
 ├── doctor.html
-├── admin.html
+├── doctor-dashboard.html
+├── doctor-documents.html
+├── doctor-profile.html
 ├── emergency.html
+├── login.html
+├── otp.html
+├── profile.html
+├── register.html
 ├── package.json
+├── package-lock.json
 └── README.md
-```
+
 
 ## ⚙️ Setup
 
