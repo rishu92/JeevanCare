@@ -1019,7 +1019,7 @@ if (registerForm) {
 
                 const response =
                     await fetch(
-                        "http://localhost:5000/api/auth/register",
+                        "https://jeevancare-mnn4.onrender.com/api/auth/register",
                         {
                             method: "POST",
 
@@ -1450,7 +1450,7 @@ if (loginForm) {
 
                 const response =
                     await fetch(
-                        "http://localhost:5000/api/auth/login",
+                        "https://jeevancare-mnn4.onrender.com/api/auth/login",
                         {
                             method: "POST",
 

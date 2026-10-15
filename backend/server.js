@@ -47,7 +47,7 @@ app.use(
                 return callback(null, true);
             }
 
-            if (allowedOrigins.includes(origin)) {
+            if (allowedOrigins.includes(origin) || /^https:\/\/[a-z0-9-]+\.netlify\.app$/i.test(origin)) {
                 return callback(null, true);
             }
 

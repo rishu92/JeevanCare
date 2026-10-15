@@ -174,7 +174,7 @@ async function loadDoctorProfile() {
 
         const response =
             await fetch(
-                "http://localhost:5000/api/doctors/profile",
+                "https://jeevancare-mnn4.onrender.com/api/doctors/profile",
                 {
                     method: "GET",
 
@@ -409,7 +409,7 @@ if (profileForm) {
 
                 const response =
                     await fetch(
-                        "http://localhost:5000/api/doctors/profile",
+                        "https://jeevancare-mnn4.onrender.com/api/doctors/profile",
                         {
                             method: "PUT",
 

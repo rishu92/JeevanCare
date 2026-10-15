@@ -125,7 +125,7 @@ if (logoutBtn) {
 async function verifyAuthentication() {
     try {
         const response = await fetch(
-            "http://localhost:5000/api/auth/me",
+            "https://jeevancare-mnn4.onrender.com/api/auth/me",
             {
                 method: "GET",
                 headers: {
@@ -206,7 +206,7 @@ async function loadMyConsultations() {
 
     try {
         const response = await fetch(
-            "http://localhost:5000/api/consultations/my",
+            "https://jeevancare-mnn4.onrender.com/api/consultations/my",
             {
                 method: "GET",
                 headers: {

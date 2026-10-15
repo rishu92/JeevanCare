@@ -2,7 +2,7 @@
    JeevanCare - Patient Profile
    ========================================= */
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://jeevancare-mnn4.onrender.com";
 
 const token = localStorage.getItem("jeevancare_token");
 const storedUser = localStorage.getItem("jeevancare_user");

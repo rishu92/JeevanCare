@@ -225,7 +225,7 @@ async function loadConsultationRequests() {
 
         const response =
             await fetch(
-                "http://localhost:5000/api/consultations/doctor",
+                "https://jeevancare-mnn4.onrender.com/api/consultations/doctor",
                 {
                     method: "GET",
 
@@ -681,7 +681,7 @@ async function updateConsultation(
 
         const response =
             await fetch(
-                `http://localhost:5000/api/consultations/${consultationId}/${action}`,
+                `https://jeevancare-mnn4.onrender.com/api/consultations/${consultationId}/${action}`,
                 {
                     method: "PATCH",
 
