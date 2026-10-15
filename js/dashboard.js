@@ -97,25 +97,73 @@ setInterval(() => {
 
 // ==========================================
 // LOGOUT
+// =========================================
+
+
 // ==========================================
+// PROFILE DROPDOWN
+// ==========================================
+
+const profileMenuBtn = document.getElementById("profileMenuBtn");
+const profileDropdown = document.getElementById("profileDropdown");
+const profileLogoutBtn = document.getElementById("profileLogoutBtn");
+
+function closeProfileDropdown() {
+    if (!profileMenuBtn || !profileDropdown) return;
+
+    profileDropdown.hidden = true;
+    profileMenuBtn.setAttribute("aria-expanded", "false");
+}
+
+if (profileMenuBtn && profileDropdown) {
+    profileMenuBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
+
+        const isOpen =
+            profileMenuBtn.getAttribute("aria-expanded") === "true";
+
+        profileDropdown.hidden = isOpen;
+        profileMenuBtn.setAttribute("aria-expanded", String(!isOpen));
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!event.target.closest(".profile-menu")) {
+            closeProfileDropdown();
+        }
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            closeProfileDropdown();
+        }
+    });
+}
+
+// ==========================================
+// LOGOUT
+// ==========================================
+
+function handleLogout() {
+    const confirmLogout = confirm(
+        "Are you sure you want to logout?"
+    );
+
+    if (!confirmLogout) return;
+
+    localStorage.removeItem("jeevancare_token");
+    localStorage.removeItem("jeevancare_user");
+
+    window.location.href = "index.html";
+}
 
 const logoutBtn = document.getElementById("logoutBtn");
 
 if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-        const confirmLogout = confirm(
-            "Are you sure you want to logout?"
-        );
+    logoutBtn.addEventListener("click", handleLogout);
+}
 
-        if (!confirmLogout) {
-            return;
-        }
-
-        localStorage.removeItem("jeevancare_token");
-        localStorage.removeItem("jeevancare_user");
-
-        window.location.href = "index.html";
-    });
+if (profileLogoutBtn) {
+    profileLogoutBtn.addEventListener("click", handleLogout);
 }
 
 // ==========================================
@@ -433,3 +481,27 @@ function startConsultationRefresh() {
 }
 
 startConsultationRefresh();
+// ==========================================
+// SIDEBAR ACTIVE NAVIGATION
+// ==========================================
+
+document.querySelectorAll(".sidebar-nav .nav-item").forEach((item) => {
+    item.addEventListener("click", function () {
+        document.querySelectorAll(".sidebar-nav .nav-item")
+            .forEach((nav) => nav.classList.remove("active"));
+
+        this.classList.add("active");
+    });
+});
+// SIDEBAR ACTIVE PAGE
+
+document.querySelectorAll(".sidebar-nav .nav-item").forEach((item) => {
+    const link = item.getAttribute("href");
+    const currentPage = window.location.pathname.split("/").pop();
+
+    if (link === currentPage) {
+        item.classList.add("active");
+    } else {
+        item.classList.remove("active");
+    }
+});

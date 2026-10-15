@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1220">
+    <meta name="description" content="JeevanCare patient dashboard — manage consultations, explore healthcare services and access health guidance.">
     <title>Dashboard | JeevanCare</title>
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
@@ -21,42 +23,45 @@
             </div>
         </div>
 
-        <nav class="sidebar-nav">
-            <a href="#" class="nav-item active">
-                <span class="nav-icon">⌂</span>
+        <nav class="sidebar-nav" aria-label="Main navigation">
+            <a href="dashboard.html" class="nav-item active" aria-current="page">
+                <span class="nav-icon" aria-hidden="true">⌂</span>
                 <span>Dashboard</span>
             </a>
+
             <a href="doctor.html" class="nav-item">
-                <span class="nav-icon">＋</span>
+                <span class="nav-icon" aria-hidden="true">＋</span>
                 <span>Consult Doctor</span>
             </a>
-            <a href="ai-assistant.html" class="nav-item">
-                <span class="nav-icon">✦</span>
-                <span>AI Health Assistant</span>
-            
-<a href="emergency.html" class="nav-item">
-    <span class="nav-icon">🚨</span>
-    <span>Emergency</span>
-</a>
 
+            <a href="ai-assistant.html" class="nav-item">
+                <span class="nav-icon" aria-hidden="true">✦</span>
+                <span>AI Health Assistant</span>
             </a>
-            <a href="profile.html" class="nav-item">
-                <span class="nav-icon">◉</span>
-                <span>My Profile</span>
+
+            <a href="emergency.html" class="nav-item">
+                <span class="nav-icon" aria-hidden="true">🚨</span>
+                <span>Emergency</span>
+            </a>
+
+            <a href="care-beyond.html" class="nav-item care-beyond-link">
+                <span class="nav-icon" aria-hidden="true">♡</span>
+                <span>Care Beyond</span>
+                <span class="care-beyond-badge">NEW</span>
             </a>
         </nav>
 
         <div class="sidebar-bottom">
             <div class="help-card">
-                <div class="help-icon">?</div>
+                <div class="help-icon" aria-hidden="true">?</div>
                 <div>
                     <strong>Need help?</strong>
                     <p>We're here for you.</p>
                 </div>
             </div>
 
-            <button id="logoutBtn" class="logout-btn">
-                <span>↪</span>
+            <button type="button" id="logoutBtn" class="logout-btn">
+                <span aria-hidden="true">↪</span>
                 Logout
             </button>
         </div>
@@ -64,14 +69,16 @@
 
     <!-- MAIN CONTENT -->
     <main class="main-content">
+
         <!-- TOP BAR -->
         <header class="topbar">
-            <div>
+            <div class="topbar-heading">
                 <p class="eyebrow">JEEVANCARE HEALTH PORTAL</p>
 
                 <h1>
                     <span id="greetingText">Good morning</span>,
-                    <span id="userName">there</span> 👋
+                    <span id="userName">there</span>
+                    <span aria-hidden="true">👋</span>
                 </h1>
 
                 <p class="subtitle">
@@ -80,26 +87,64 @@
             </div>
 
             <div class="topbar-actions">
-                <button class="notification-btn">
+                <button
+                    type="button"
+                    class="notification-btn"
+                    aria-label="Notifications"
+                    title="Notifications"
+                >
                     ♢
-                    <span class="notification-dot"></span>
+                    <span class="notification-dot" aria-hidden="true"></span>
                 </button>
 
-                <div class="profile-mini">
-                    <div class="avatar" id="userAvatar">R</div>
-                    <div>
-                        <strong id="profileName">User</strong>
-                        <span id="profileRole">Patient</span>
+                <div class="profile-menu">
+                    <button
+                        type="button"
+                        class="profile-mini"
+                        id="profileMenuBtn"
+                        aria-expanded="false"
+                        aria-controls="profileDropdown"
+                        aria-label="Open profile menu"
+                    >
+                        <div class="avatar" id="userAvatar" aria-hidden="true">R</div>
+
+                        <div class="profile-mini-info">
+                            <strong id="profileName">User</strong>
+                            <span id="profileRole">Patient</span>
+                        </div>
+
+                        <span class="profile-chevron" aria-hidden="true">⌄</span>
+                    </button>
+
+                    <div class="profile-dropdown" id="profileDropdown" hidden>
+                        <a href="profile.html" class="profile-dropdown-item">
+                            <span aria-hidden="true">◎</span>
+                            <span>My Profile</span>
+                        </a>
+
+                        <button
+                            type="button"
+                            class="profile-dropdown-item profile-dropdown-logout"
+                            id="profileLogoutBtn"
+                        >
+                            <span aria-hidden="true">↪</span>
+                            <span>Logout</span>
+                        </button>
                     </div>
                 </div>
             </div>
         </header>
 
         <!-- HEALTH OVERVIEW -->
-        <section class="overview-grid">
+        <section class="overview-grid" aria-label="Health overview">
+
+            <!-- WELCOME CARD -->
             <div class="welcome-card">
                 <div class="welcome-content">
-                    <span class="status-pill">● You're doing great</span>
+                    <span class="status-pill">
+                        <span aria-hidden="true">●</span>
+                        Your health matters
+                    </span>
 
                     <h2>
                         Take care of yourself,
@@ -108,44 +153,48 @@
                     </h2>
 
                     <p>
-                        Get personalized health guidance,
-                        consult doctors and manage your
-                        healthcare journey from one place.
+                        Get personalized health guidance, consult doctors
+                        and manage your healthcare journey from one place.
                     </p>
 
                     <button
+                        type="button"
                         class="primary-btn"
-                        onclick="window.location.href='doctor.html'">
+                        onclick="window.location.href='doctor.html'"
+                    >
                         Consult a Doctor
-                        <span>→</span>
+                        <span aria-hidden="true">→</span>
                     </button>
                 </div>
 
-                <div class="welcome-orb">
+                <div class="welcome-orb" aria-hidden="true">
                     <div class="orb-ring ring-one"></div>
                     <div class="orb-ring ring-two"></div>
                     <div class="heart-symbol">+</div>
                 </div>
             </div>
 
+            <!-- AI ASSISTANT CARD -->
             <div class="quick-card">
                 <div class="card-top">
-                    <div class="card-icon ai-icon">✦</div>
+                    <div class="card-icon ai-icon" aria-hidden="true">✦</div>
                     <span class="card-label">AI ASSISTANT</span>
                 </div>
 
                 <h3>Have a health question?</h3>
 
                 <p>
-                    Get quick, safe and easy-to-understand
-                    health guidance.
+                    Get quick, safe and easy-to-understand health guidance
+                    whenever you need it.
                 </p>
 
                 <button
+                    type="button"
                     class="outline-btn"
-                    onclick="window.location.href='ai-assistant.html'">
+                    onclick="window.location.href='ai-assistant.html'"
+                >
                     Ask AI
-                    <span>→</span>
+                    <span aria-hidden="true">→</span>
                 </button>
             </div>
         </section>
@@ -160,56 +209,70 @@
             </div>
 
             <div class="action-grid">
+
                 <div
                     class="action-card"
-                    onclick="window.location.href='doctor.html'">
-
-                    <div class="action-icon doctor-icon">+</div>
+                    role="link"
+                    tabindex="0"
+                    aria-label="Consult a Doctor"
+                    onclick="window.location.href='doctor.html'"
+                    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='doctor.html';}"
+                >
+                    <div class="action-icon doctor-icon" aria-hidden="true">+</div>
 
                     <div>
                         <h3>Consult a Doctor</h3>
                         <p>
-                            Talk to a healthcare professional
-                            from anywhere.
+                            Connect with a healthcare professional
+                            from the comfort of your home.
                         </p>
                     </div>
 
-                    <span class="action-arrow">→</span>
+                    <span class="action-arrow" aria-hidden="true">→</span>
                 </div>
 
                 <div
                     class="action-card"
-                    onclick="window.location.href='ai-assistant.html'">
-
-                    <div class="action-icon ai-icon">✦</div>
+                    role="link"
+                    tabindex="0"
+                    aria-label="AI Health Assistant"
+                    onclick="window.location.href='ai-assistant.html'"
+                    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='ai-assistant.html';}"
+                >
+                    <div class="action-icon ai-icon" aria-hidden="true">✦</div>
 
                     <div>
                         <h3>AI Health Assistant</h3>
                         <p>
-                            Get preliminary health guidance
-                            anytime.
+                            Explore preliminary health guidance
+                            and helpful health information.
                         </p>
                     </div>
 
-                    <span class="action-arrow">→</span>
+                    <span class="action-arrow" aria-hidden="true">→</span>
                 </div>
 
                 <div
                     class="action-card"
-                    onclick="window.location.href='profile.html'">
-
-                    <div class="action-icon profile-icon">◉</div>
+                    role="link"
+                    tabindex="0"
+                    aria-label="My Profile"
+                    onclick="window.location.href='profile.html'"
+                    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='profile.html';}"
+                >
+                    <div class="action-icon profile-icon" aria-hidden="true">◉</div>
 
                     <div>
                         <h3>My Profile</h3>
                         <p>
                             Manage your personal information
-                            and preferences.
+                            and account preferences.
                         </p>
                     </div>
 
-                    <span class="action-arrow">→</span>
+                    <span class="action-arrow" aria-hidden="true">→</span>
                 </div>
+
             </div>
         </section>
 
@@ -217,21 +280,22 @@
         <section class="section">
             <div class="section-heading">
                 <div>
-                    <span class="section-label">HEALTH & SAFETY</span>
+                    <span class="section-label">HEALTH &amp; SAFETY</span>
                     <h2>Important resources</h2>
                 </div>
             </div>
 
             <div class="resource-grid">
+
                 <div class="resource-card emergency-card">
-                    <div class="resource-icon">!</div>
+                    <div class="resource-icon" aria-hidden="true">!</div>
 
                     <div>
                         <span class="resource-label">EMERGENCY</span>
                         <h3>Need immediate help?</h3>
                         <p>
-                            For life-threatening emergencies,
-                            contact emergency services immediately.
+                            For life-threatening emergencies, contact
+                            emergency services immediately.
                         </p>
                     </div>
 
@@ -241,7 +305,7 @@
                 </div>
 
                 <div class="resource-card safety-card">
-                    <div class="resource-icon">✓</div>
+                    <div class="resource-icon" aria-hidden="true">✓</div>
 
                     <div>
                         <span class="resource-label">SAFETY FIRST</span>
@@ -252,6 +316,7 @@
                         </p>
                     </div>
                 </div>
+
             </div>
         </section>
 
@@ -268,9 +333,13 @@
                 </a>
             </div>
 
-            <div id="consultationsList" class="consultations-list">
+            <div
+                id="consultationsList"
+                class="consultations-list"
+                aria-live="polite"
+            >
                 <div class="consultations-loading">
-                    <div class="mini-spinner"></div>
+                    <div class="mini-spinner" aria-hidden="true"></div>
                     <span>Loading your consultations...</span>
                 </div>
             </div>
@@ -279,9 +348,10 @@
             <div
                 id="noConsultations"
                 class="consultations-empty"
-                style="display: none;">
+                style="display: none;"
+            >
+                <div class="empty-consult-icon" aria-hidden="true">+</div>
 
-                <div class="empty-consult-icon">+</div>
                 <h3>No consultations yet</h3>
 
                 <p>
@@ -291,7 +361,7 @@
 
                 <a href="doctor.html" class="primary-btn">
                     Consult a Doctor
-                    <span>→</span>
+                    <span aria-hidden="true">→</span>
                 </a>
             </div>
         </section>
@@ -305,6 +375,7 @@
 
             <span>© 2026 JeevanCare</span>
         </footer>
+
     </main>
 
     <!-- JAVASCRIPT -->

@@ -73,7 +73,123 @@ let doctors = [];
 
 let selectedDoctorId = null;
 
+// ==========================================
+// DATE & TIME SELECTION
+// ==========================================
 
+const consultDate = document.getElementById("consultDate");
+const consultTime = document.getElementById("consultTime");
+const selectedDateText = document.getElementById("selectedDateText");
+const selectedTimeText = document.getElementById("selectedTimeText");
+
+function localDateValue(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+function setConsultDate(value) {
+    if (!consultDate || !value) return;
+
+    if (value < localDateValue(new Date())) {
+        showConsultMessage("Please choose today or a future date.", true);
+        return;
+    }
+
+    consultDate.value = value;
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const selectedType =
+        value === localDateValue(new Date())
+            ? "today"
+            : value === localDateValue(tomorrow)
+                ? "tomorrow"
+                : "custom";
+
+    consultModal.querySelectorAll(".date-option").forEach(button => {
+        button.classList.toggle(
+            "active",
+            button.dataset.date === selectedType
+        );
+    });
+
+    const date = new Date(`${value}T00:00:00`);
+
+    if (selectedDateText) {
+        selectedDateText.textContent =
+            "Selected: " +
+            date.toLocaleDateString("en-IN", {
+                weekday: "short",
+                day: "numeric",
+                month: "short"
+            });
+    }
+}
+
+if (consultDate) {
+    consultDate.min = localDateValue(new Date());
+
+    consultModal.querySelectorAll(".date-option").forEach(button => {
+        button.addEventListener("click", () => {
+            if (button.dataset.date === "today") {
+                setConsultDate(localDateValue(new Date()));
+            } else if (button.dataset.date === "tomorrow") {
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+
+                setConsultDate(localDateValue(tomorrow));
+            } else {
+                if (typeof consultDate.showPicker === "function") {
+                    consultDate.showPicker();
+                } else {
+                    consultDate.focus();
+                    consultDate.click();
+                }
+            }
+        });
+    });
+
+    consultDate.addEventListener("change", () => {
+        setConsultDate(consultDate.value);
+    });
+}
+
+consultModal.querySelectorAll(".time-slot").forEach(button => {
+    button.addEventListener("click", () => {
+        consultModal.querySelectorAll(".time-slot").forEach(slot => {
+            slot.classList.toggle("active", slot === button);
+        });
+
+        if (consultTime) {
+            consultTime.value = button.dataset.time || "";
+        }
+
+        if (selectedTimeText) {
+            selectedTimeText.textContent =
+                "Selected: " + button.textContent.trim();
+        }
+    });
+});
+
+function resetConsultAppointmentChoices() {
+    if (consultDate) consultDate.value = "";
+    if (consultTime) consultTime.value = "";
+
+    if (selectedDateText) {
+        selectedDateText.textContent = "Select a date.";
+    }
+
+    if (selectedTimeText) {
+        selectedTimeText.textContent = "Select a time slot.";
+    }
+
+    consultModal.querySelectorAll(".date-option, .time-slot")
+        .forEach(button => button.classList.remove("active"));
+}
 // ==========================================
 // LOAD DOCTORS
 // ==========================================
@@ -541,7 +657,7 @@ function openConsultationModal(
     selectedDoctorId =
         Number(doctor.id);
 
-
+resetConsultAppointmentChoices();
     // ==========================================
     // SELECTED DOCTOR DISPLAY
     // ==========================================

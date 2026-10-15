@@ -260,78 +260,79 @@ function updatePersonInfo(messages) {
 // RENDER MESSAGES
 // =========================================
 
+
 function renderMessages(messages) {
-
-    if (!chatMessages) {
-        return;
-    }
-
+    if (!chatMessages) return;
 
     if (!messages || messages.length === 0) {
-
         chatMessages.innerHTML = `
             <div class="chat-empty">
-
-                <div class="chat-empty-icon">
-                    💬
+                <div class="chat-empty-icon">💬</div>
+                <span class="empty-kicker">YOUR PRIVATE SPACE</span>
+                <h3>Let's start talking!</h3>
+                <p>Have a question about your consultation? Send your first message below.</p>
+                <div class="empty-suggestions">
+                    <span>👋 Say hello</span>
+                    <span>🩺 Ask a question</span>
+                    <span>💚 Discuss your care</span>
                 </div>
-
-                <h3>Start the conversation</h3>
-
-                <p>
-                    Send a message to begin communicating
-                    about this consultation.
-                </p>
-
             </div>
         `;
-
         return;
     }
 
+    const wasNearBottom =
+        chatMessages.scrollHeight -
+        chatMessages.scrollTop -
+        chatMessages.clientHeight < 100;
 
-    chatMessages.innerHTML =
-        messages.map(message => {
+    chatMessages.innerHTML = messages.map(message => {
+        const isSent =
+            Number(message.sender_id) === Number(currentUser.id);
 
-            const isSent =
-                Number(message.sender_id) ===
-                Number(currentUser.id);
+        const senderName = isSent
+            ? "You"
+            : (message.sender_name || "Consultation participant");
 
+        const initials = senderName
+            .trim()
+            .charAt(0)
+            .toUpperCase();
 
-            const messageClass =
-                isSent
-                    ? "sent"
-                    : "received";
+        const time = formatMessageTime(message.created_at);
 
+        return `
+            <article class="message ${isSent ? "sent" : "received"}">
+                ${
+                    !isSent
+                        ? `
+                            <div class="message-sender">
+                                <span class="message-avatar">${escapeHtml(initials)}</span>
+                                <span>${escapeHtml(senderName)}</span>
+                            </div>
+                        `
+                        : ""
+                }
 
-            const time =
-                formatMessageTime(
-                    message.created_at
-                );
-
-
-            return `
-                <div class="message ${messageClass}">
-
-                    <div class="message-bubble">
-                        ${escapeHtml(message.message)}
-                    </div>
+                <div class="message-bubble">
+                    <div class="message-text">${escapeHtml(message.message)}</div>
 
                     <div class="message-meta">
-                        ${isSent ? "You" : escapeHtml(message.sender_name || "User")}
-                        ${time ? ` • ${time}` : ""}
+                        <span class="message-time">${escapeHtml(time)}</span>
+                        ${
+                            isSent
+                                ? '<span class="message-status" title="Sent">✓</span>'
+                                : ""
+                        }
                     </div>
-
                 </div>
-            `;
+            </article>
+        `;
+    }).join("");
 
-        }).join("");
-
-
-    // Scroll to bottom
-
-    chatMessages.scrollTop =
-        chatMessages.scrollHeight;
+    if (wasNearBottom) {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
 }
 
 

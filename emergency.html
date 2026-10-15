@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,20 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Emergency Services | JeevanCare</title>
 
-<link rel="stylesheet"
- href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
 <style>
 :root {
-  --bg: #071321;
-  --sidebar: #0b1929;
-  --card: #102238;
-  --border: #20374e;
-  --text: #edf6ff;
-  --muted: #9aafc5;
-  --cyan: #43d9e8;
-  --teal: #28c9b7;
-  --red: #ff646e;
+  --bg: #080f1d;
+  --sidebar: #0d192b;
+  --card: #111f32;
+  --text: #edf5fb;
+  --muted: #91a5ba;
+  --mint: #70f0ce;
+  --teal: #36cbb5;
+  --red: #ff6978;
+  --border: rgba(148,177,205,.15);
 }
 
 * {
@@ -28,11 +24,17 @@
   box-sizing: border-box;
 }
 
+html { scroll-behavior: smooth; }
+
 body {
-  font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
   min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  background:
+    radial-gradient(ellipse at 80% 0%, rgba(54,203,181,.09), transparent 35%),
+    radial-gradient(ellipse at 5% 65%, rgba(139,92,246,.06), transparent 30%),
+    var(--bg);
 }
 
 .layout {
@@ -40,14 +42,16 @@ body {
   min-height: 100vh;
 }
 
+/* SIDEBAR */
+
 .sidebar {
   width: 250px;
   flex-shrink: 0;
-  background: var(--sidebar);
-  border-right: 1px solid var(--border);
   padding: 28px 18px;
   display: flex;
   flex-direction: column;
+  background: linear-gradient(180deg, #101d30, #0b1423);
+  border-right: 1px solid var(--border);
 }
 
 .brand {
@@ -58,31 +62,39 @@ body {
 }
 
 .brand-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 13px;
+  width: 46px;
+  height: 46px;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, var(--cyan), var(--teal));
+  flex-shrink: 0;
   color: #071321;
+  font-weight: 900;
   font-size: 17px;
-  font-weight: bold;
+  border-radius: 15px;
+  background: linear-gradient(135deg, var(--mint), var(--teal));
+  box-shadow: 0 7px 24px rgba(54,203,181,.18);
+  transition: transform .3s, box-shadow .3s;
+}
+
+.brand:hover .brand-icon {
+  transform: rotate(-7deg) scale(1.07);
+  box-shadow: 0 10px 30px rgba(54,203,181,.3);
 }
 
 .brand h2 { font-size: 20px; }
 
 .brand p {
-  color: var(--muted);
-  font-size: 11px;
   margin-top: 5px;
+  font-size: 11px;
+  color: var(--muted);
 }
 
 .nav-title {
-  color: #6e879f;
-  font-size: 10px;
-  letter-spacing: 2px;
   padding: 0 12px;
   margin-bottom: 14px;
+  color: #7189a1;
+  font-size: 10px;
+  letter-spacing: 2px;
 }
 
 .sidebar-nav {
@@ -92,25 +104,43 @@ body {
 }
 
 .nav-item {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 14px 13px;
-  border-radius: 10px;
-  text-decoration: none;
   color: var(--muted);
   font-size: 14px;
-  transition: .2s;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  transition: .25s ease;
+}
+
+.nav-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 3px;
+  background: var(--mint);
+  border-radius: 0 5px 5px 0;
+  transform: scaleY(0);
+  transition: transform .25s;
 }
 
 .nav-item:hover,
 .nav-item.active {
-  color: var(--cyan);
-  background: #123040;
+  color: var(--mint);
+  background: rgba(54,203,181,.09);
+  border-color: rgba(112,240,206,.16);
+  transform: translateX(4px);
 }
 
-.nav-item.active {
-  border: 1px solid #205267;
+.nav-item:hover::before,
+.nav-item.active::before {
+  transform: scaleY(1);
 }
 
 .nav-icon {
@@ -125,385 +155,439 @@ body {
 }
 
 .help-card {
-  padding: 15px;
-  border: 1px solid var(--border);
-  background: #0e2033;
-  border-radius: 12px;
+  padding: 16px;
   margin-bottom: 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(17,31,50,.8);
 }
 
 .help-card p {
+  margin-top: 7px;
   color: var(--muted);
   font-size: 12px;
-  line-height: 1.6;
-  margin-top: 6px;
+  line-height: 1.7;
 }
 
 .logout-btn {
   width: 100%;
   padding: 12px;
-  border-radius: 9px;
+  color: var(--muted);
   background: transparent;
   border: 1px solid var(--border);
-  color: var(--muted);
+  border-radius: 11px;
   cursor: pointer;
+  transition: .25s;
 }
+
+.logout-btn:hover {
+  color: var(--red);
+  border-color: rgba(255,105,120,.4);
+  background: rgba(255,105,120,.06);
+}
+
+/* MAIN CONTENT */
 
 .main-content {
   flex: 1;
   min-width: 0;
-  padding: 35px;
+  padding: clamp(20px, 3vw, 42px);
 }
 
 .topbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   gap: 20px;
-  margin-bottom: 32px;
+  margin-bottom: 30px;
+  animation: fadeUp .6s both;
 }
 
 .eyebrow,
 .section-label {
-  color: var(--cyan);
-  font-size: 11px;
-  letter-spacing: 2px;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 11px;
+  color: var(--mint);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
 }
 
 h1 {
-  font-size: clamp(25px, 3vw, 35px);
-  margin-bottom: 10px;
+  margin-bottom: 11px;
+  font-size: clamp(27px, 3vw, 38px);
+  line-height: 1.2;
+  letter-spacing: -1px;
 }
 
 .subtitle,
 .section-heading p {
   color: var(--muted);
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: 13px;
+  line-height: 1.8;
 }
 
 .back-btn {
+  flex-shrink: 0;
+  padding: 12px 17px;
+  color: var(--mint);
   text-decoration: none;
-  color: var(--cyan);
-  border: 1px solid #285268;
-  padding: 11px 16px;
-  border-radius: 9px;
   font-size: 13px;
-  white-space: nowrap;
+  border: 1px solid rgba(112,240,206,.2);
+  border-radius: 12px;
+  transition: .25s;
 }
 
+.back-btn:hover {
+  transform: translateY(-3px);
+  background: rgba(112,240,206,.08);
+  border-color: var(--mint);
+  box-shadow: 0 8px 24px rgba(54,203,181,.08);
+}
+
+/* EMERGENCY BANNER */
+
 .emergency-banner {
-  background: linear-gradient(120deg, #421d30, #251c32);
-  border: 1px solid #713448;
-  border-radius: 17px;
-  padding: 25px;
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 32px;
+  gap: 22px;
+  padding: clamp(22px, 3vw, 32px);
+  margin-bottom: 38px;
+  border: 1px solid rgba(255,105,120,.3);
+  border-radius: 22px;
+  background: linear-gradient(120deg, rgba(107,36,55,.65), rgba(36,25,47,.95));
+  box-shadow: 0 18px 45px rgba(0,0,0,.15);
+  animation: fadeUp .65s .08s both;
+}
+
+.emergency-banner::after {
+  content: "!";
+  position: absolute;
+  top: -48px;
+  right: 150px;
+  color: rgba(255,255,255,.035);
+  font-size: 200px;
+  font-weight: 900;
+  pointer-events: none;
 }
 
 .banner-content {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: flex-start;
   gap: 16px;
 }
 
 .banner-icon {
-  min-width: 49px;
-  height: 49px;
   display: grid;
   place-items: center;
-  border-radius: 13px;
-  background: #702e42;
+  min-width: 52px;
+  height: 52px;
   font-size: 25px;
+  border-radius: 16px;
+  background: rgba(255,105,120,.13);
+  border: 1px solid rgba(255,105,120,.18);
 }
 
 .emergency-banner h2 {
-  font-size: 20px;
   margin-bottom: 9px;
+  font-size: 20px;
 }
 
 .emergency-banner p {
+  max-width: 650px;
   color: #d7b8c3;
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
 .call-112 {
-  background: var(--red);
-  color: #1e1017;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  flex-shrink: 0;
+  padding: 15px 24px;
+  color: #210e16;
+  background: linear-gradient(135deg, #ff8a91, var(--red));
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(255,105,120,.2);
   text-decoration: none;
-  font-weight: bold;
-  padding: 14px 23px;
-  border-radius: 10px;
-  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 900;
+  transition: .25s;
 }
 
-.section-heading { margin-bottom: 19px; }
+.call-112:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 13px 30px rgba(255,105,120,.3);
+}
+
+/* SECTION HEADING */
+
+.section-heading { margin-bottom: 22px; }
 
 .section-heading h2 {
-  font-size: 23px;
   margin-bottom: 8px;
+  font-size: clamp(21px, 2.3vw, 26px);
+  letter-spacing: -.5px;
 }
+
+/* SERVICE CARDS */
 
 .emergency-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 20px;
 }
 
 .service-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  padding: 22px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 225px;
-  transition: .2s;
+  min-width: 0;
+  min-height: 265px;
+  padding: 23px;
+  background: linear-gradient(150deg, #15263c, #0d192a);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.12);
+  animation: fadeUp .6s both;
+  transition:
+    transform .3s cubic-bezier(.2,.8,.2,1),
+    border-color .3s ease,
+    box-shadow .3s ease;
+}
+
+.service-card:nth-child(2) { animation-delay: .04s; }
+.service-card:nth-child(3) { animation-delay: .08s; }
+.service-card:nth-child(4) { animation-delay: .12s; }
+.service-card:nth-child(5) { animation-delay: .16s; }
+.service-card:nth-child(6) { animation-delay: .20s; }
+.service-card:nth-child(7) { animation-delay: .24s; }
+.service-card:nth-child(8) { animation-delay: .28s; }
+.service-card:nth-child(9) { animation-delay: .32s; }
+.service-card:nth-child(10) { animation-delay: .36s; }
+.service-card:nth-child(11) { animation-delay: .40s; }
+.service-card:nth-child(12) { animation-delay: .44s; }
+
+.service-card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--mint), transparent);
+  opacity: .55;
+}
+
+.service-card::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    320px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(112,240,206,.13),
+    transparent 48%
+  );
+  transition: opacity .25s;
 }
 
 .service-card:hover {
-  transform: translateY(-3px);
-  border-color: #3b7488;
+  transform: translateY(-8px);
+  border-color: rgba(112,240,206,.4);
+  box-shadow:
+    0 22px 45px rgba(0,0,0,.25),
+    0 0 24px rgba(54,203,181,.06);
 }
+
+.service-card:hover::after { opacity: 1; }
 
 .service-top {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 19px;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 22px;
 }
 
 .service-icon {
-  width: 49px;
-  height: 49px;
-  border-radius: 13px;
   display: grid;
   place-items: center;
-  font-size: 24px;
-  background: #173e47;
+  flex-shrink: 0;
+  width: 54px;
+  height: 54px;
+  font-size: 25px;
+  border-radius: 17px;
+  background: linear-gradient(145deg, rgba(54,203,181,.17), rgba(54,203,181,.04));
+  border: 1px solid rgba(112,240,206,.17);
+  transition: transform .3s, box-shadow .3s;
+}
+
+.service-card:hover .service-icon {
+  transform: translateY(-4px) rotate(-5deg) scale(1.06);
+  box-shadow: 0 10px 24px rgba(54,203,181,.14);
 }
 
 .service-tag {
-  font-size: 10px;
-  padding: 6px 8px;
-  border-radius: 6px;
-  background: #183b43;
-  color: var(--cyan);
+  max-width: 65%;
+  padding: 7px 9px;
+  color: var(--mint);
+  background: rgba(54,203,181,.08);
+  border: 1px solid rgba(112,240,206,.12);
+  border-radius: 8px;
+  text-align: center;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .7px;
 }
 
 .service-card h3 {
-  font-size: 17px;
   margin-bottom: 9px;
+  font-size: 17px;
+  line-height: 1.45;
 }
 
 .service-card p {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.7;
-  margin-bottom: 18px;
   flex: 1;
-}
-
-.service-number {
-  font-size: 22px;
-  font-weight: bold;
-  color: var(--cyan);
-  margin-bottom: 15px;
-}
-
-.service-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 12px;
-  background: #123447;
-  color: var(--cyan);
-  border: 1px solid #27586c;
-  border-radius: 9px;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.service-btn.red-btn {
-  background: #4a2635;
-  border-color: #713448;
-  color: #ff929a;
-}
-
-/* NEARBY MAP */
-
-.nearby-map-section {
-  margin-top: 36px;
-}
-
-.map-panel {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 18px;
-}
-
-.map-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.map-toolbar input,
-.map-toolbar select {
-  flex: 1;
-  min-width: 170px;
-  padding: 12px;
-  background: #091a2a;
-  border: 1px solid #2a455d;
-  border-radius: 9px;
-  color: var(--text);
-}
-
-.map-action {
-  padding: 12px 15px;
-  border: 1px solid #286174;
-  border-radius: 9px;
-  background: #123447;
-  color: var(--cyan);
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.map-action.primary {
-  background: var(--cyan);
-  color: #061521;
-}
-
-.map-action:disabled {
-  opacity: .6;
-  cursor: wait;
-}
-
-#nearbyMap {
-  width: 100%;
-  height: 440px;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #0b1929;
-}
-
-.map-status {
+  margin-bottom: 19px;
   color: var(--muted);
-  font-size: 12px;
-  line-height: 1.7;
-  margin-top: 12px;
-}
-
-.map-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 12px;
-}
-
-.legend-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.map-results {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 14px;
-}
-
-.map-result {
-  background: #0b1b2c;
-  border: 1px solid var(--border);
-  border-radius: 11px;
-  padding: 14px;
-  overflow-wrap: anywhere;
-}
-
-.map-result h3 {
-  font-size: 14px;
-  margin-bottom: 7px;
-}
-
-.map-result p {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.6;
-  margin-bottom: 10px;
-}
-
-.map-result a {
-  color: var(--cyan);
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.leaflet-popup-content-wrapper,
-.leaflet-popup-tip {
-  background: #102238;
-  color: #edf6ff;
-}
-
-.leaflet-popup-content a { color: #43d9e8; }
-
-.safety-note {
-  margin-top: 30px;
-  padding: 20px;
-  background: #102a34;
-  border: 1px solid #22505b;
-  border-radius: 13px;
-  display: flex;
-  gap: 13px;
-  align-items: flex-start;
-}
-
-.safety-note h3 {
-  font-size: 14px;
-  margin-bottom: 7px;
-}
-
-.safety-note p {
-  font-size: 12px;
-  color: #a9c2d0;
+  font-size: 12.5px;
   line-height: 1.8;
 }
 
+.service-number {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 17px;
+  color: #9bf5df;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.5px;
+  transition: transform .25s, color .25s;
+}
+
+.service-card:hover .service-number {
+  transform: translateX(4px);
+  color: #c4fff0;
+}
+
+.service-btn {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 12px;
+  color: var(--mint);
+  background: rgba(54,203,181,.08);
+  border: 1px solid rgba(112,240,206,.2);
+  border-radius: 12px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  transition: .25s ease;
+}
+
+.service-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,.16) 50%, transparent 75%);
+  transform: translateX(-130%);
+  transition: transform .55s;
+}
+
+.service-btn:hover::after { transform: translateX(130%); }
+
+.service-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(54,203,181,.16);
+  border-color: rgba(112,240,206,.45);
+  box-shadow: 0 8px 22px rgba(54,203,181,.08);
+}
+
+.service-btn.red-btn {
+  color: #ff9ba5;
+  background: rgba(255,105,120,.08);
+  border-color: rgba(255,105,120,.22);
+}
+
+.service-btn.red-btn:hover {
+  background: rgba(255,105,120,.16);
+  border-color: rgba(255,105,120,.42);
+}
+
+/* SAFETY NOTE & FOOTER */
+
+.safety-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-top: 32px;
+  padding: 23px;
+  background: rgba(16,42,52,.65);
+  border: 1px solid rgba(54,203,181,.2);
+  border-radius: 17px;
+  transition: .25s;
+}
+
+.safety-note:hover {
+  transform: translateY(-3px);
+  border-color: rgba(112,240,206,.4);
+}
+
+.safety-note > div:first-child { font-size: 23px; }
+
+.safety-note h3 {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.safety-note p {
+  color: #a9c2d0;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
 .footer {
-  margin-top: 35px;
-  padding: 20px 0 5px;
-  border-top: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   gap: 15px;
+  margin-top: 35px;
+  padding: 22px 0 5px;
   color: var(--muted);
+  border-top: 1px solid var(--border);
   font-size: 12px;
+  line-height: 1.8;
 }
 
 .footer strong { color: var(--text); }
 
-@media (max-width: 1100px) {
-  .emergency-grid,
-  .map-results {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  .main-content { padding: 25px; }
+/* RESPONSIVE */
+
+@media (max-width: 1150px) {
+  .emergency-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 760px) {
@@ -511,10 +595,10 @@ h1 {
 
   .sidebar {
     width: 100%;
-    padding: 16px;
+    padding: 17px;
   }
 
-  .brand { padding-bottom: 17px; }
+  .brand { padding-bottom: 20px; }
 
   .sidebar-nav {
     display: grid;
@@ -540,19 +624,39 @@ h1 {
     text-align: center;
   }
 
-  .emergency-grid,
-  .map-results {
-    grid-template-columns: 1fr;
-  }
-
-  #nearbyMap { height: 350px; }
-
-  .map-toolbar input,
-  .map-toolbar select {
-    min-width: 100%;
+  .emergency-banner::after {
+    right: 10px;
+    font-size: 140px;
   }
 
   .footer { flex-direction: column; }
+}
+
+@media (max-width: 520px) {
+  .emergency-grid { grid-template-columns: 1fr; gap: 14px; }
+
+  .service-card {
+    min-height: 0;
+    padding: 21px;
+  }
+
+  .service-card p { margin-bottom: 15px; }
+
+  .sidebar-nav { gap: 6px; }
+
+  .nav-item {
+    padding: 12px 9px;
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 </style>
 </head>
@@ -599,6 +703,7 @@ h1 {
   </aside>
 
   <main class="main-content">
+
     <header class="topbar">
       <div>
         <p class="eyebrow">JEEVANCARE HEALTH PORTAL</p>
@@ -740,51 +845,42 @@ h1 {
           </a>
         </article>
 
-      </div>
-    </section>
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">🧠</div>
+            <span class="service-tag">MENTAL WELLNESS</span>
+          </div>
+          <h3>Tele-MANAS Support</h3>
+          <p>Free mental health support and guidance from India's Tele-MANAS service.</p>
+          <div class="service-number">14416</div>
+          <a href="tel:14416" class="service-btn">☎ Call 14416</a>
+        </article>
 
-    <!-- NEARBY DOCTORS AND HOSPITALS MAP -->
-    <section class="nearby-map-section" id="nearbyFacilities">
-      <div class="section-heading">
-        <span class="section-label">LOCATION-BASED CARE</span>
-        <h2>Nearby Doctors & Hospitals 🗺️</h2>
-        <p>Allow location access or search a city to find nearby healthcare facilities.</p>
-      </div>
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">💊</div>
+            <span class="service-tag">MEDICINES</span>
+          </div>
+          <h3>Nearby Pharmacies</h3>
+          <p>Find local pharmacies and contact them to check medicine availability.</p>
+          <div class="service-number">Find Nearby</div>
+          <a href="https://www.google.com/maps/search/pharmacy+near+me/"
+             target="_blank" rel="noopener noreferrer" class="service-btn">
+            Find Pharmacies ↗
+          </a>
+        </article>
 
-      <div class="map-panel">
-        <div class="map-toolbar">
-          <input id="mapLocationSearch" type="text"
-            placeholder="Search city or area (e.g. Greater Noida)"
-            aria-label="Search city or area">
+        <article class="service-card">
+          <div class="service-top">
+            <div class="service-icon">🤖</div>
+            <span class="service-tag">DIGITAL CARE</span>
+          </div>
+          <h3>AI Health Assistant</h3>
+          <p>Explore health guidance and learn what kind of care may be appropriate.</p>
+          <div class="service-number">Online</div>
+          <a href="ai-assistant.html" class="service-btn">Open Assistant →</a>
+        </article>
 
-          <select id="facilityType" aria-label="Facility type">
-            <option value="all">Doctors, clinics & hospitals</option>
-            <option value="doctors">Doctors & clinics</option>
-            <option value="hospitals">Hospitals only</option>
-          </select>
-
-          <button class="map-action primary" id="useMyLocation" type="button">
-            📍 Use My Location
-          </button>
-
-          <button class="map-action" id="searchMapLocation" type="button">
-            Search Area
-          </button>
-        </div>
-
-        <div id="nearbyMap" aria-label="Interactive healthcare map"></div>
-
-        <div class="map-legend">
-          <span><i class="legend-dot" style="background:#43d9e8"></i> Your location</span>
-          <span><i class="legend-dot" style="background:#ff646e"></i> Hospitals</span>
-          <span><i class="legend-dot" style="background:#28c9b7"></i> Doctors & clinics</span>
-        </div>
-
-        <p class="map-status" id="mapStatus" aria-live="polite">
-          Choose Use My Location or search for a city/area.
-        </p>
-
-        <div class="map-results" id="mapResults" aria-live="polite"></div>
       </div>
     </section>
 
@@ -793,9 +889,8 @@ h1 {
       <div>
         <h3>Important Safety Information</h3>
         <p>
-          Map listings may be incomplete and do not confirm that a facility is
-          open or has a doctor available. Call to confirm services. In a
-          life-threatening emergency in India, call 112 immediately.
+          Call nearby facilities to confirm that they are open and have the services
+          you need. In a life-threatening emergency in India, call 112 immediately.
           Do not delay urgent care while using this website.
         </p>
       </div>
@@ -805,357 +900,29 @@ h1 {
       <div><strong>JeevanCare</strong> — AI-assisted healthcare for everyone.</div>
       <span>© 2026 JeevanCare</span>
     </footer>
+
   </main>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <script>
-(function () {
-  const status = document.getElementById("mapStatus");
-  const results = document.getElementById("mapResults");
-  const input = document.getElementById("mapLocationSearch");
-  const type = document.getElementById("facilityType");
-  const locationButton = document.getElementById("useMyLocation");
-  const searchButton = document.getElementById("searchMapLocation");
+// Premium mouse-follow light effect on each card
+document.querySelectorAll(".service-card").forEach((card) => {
+  card.addEventListener("mousemove", (event) => {
+    const rect = card.getBoundingClientRect();
 
-  if (!window.L) {
-    status.textContent = "Map could not load. Check your internet and refresh.";
-    return;
-  }
-
-  // Default map view: Delhi NCR. This is not the user's live location.
-  let center = [28.6139, 77.2090];
-  let userMarker = null;
-
-  const map = L.map("nearbyMap").setView(center, 10);
-
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
-
-  const markers = L.layerGroup().addTo(map);
-
-  function escapeHTML(value) {
-    return String(value || "").replace(/[&<>"']/g, function (char) {
-      return {
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      }[char];
-    });
-  }
-
-  function getCoordinates(place) {
-    if (place.lat != null && place.lon != null) {
-      return [Number(place.lat), Number(place.lon)];
-    }
-
-    if (place.center) {
-      return [Number(place.center.lat), Number(place.center.lon)];
-    }
-
-    return null;
-  }
-
-  function getName(place) {
-    const tags = place.tags || {};
-    return tags.name ||
-      tags["name:en"] ||
-      tags.operator ||
-      (tags.amenity === "hospital"
-        ? "Hospital (name not listed)"
-        : "Doctor / clinic (name not listed)");
-  }
-
-  function getKind(place) {
-    const amenity = place.tags?.amenity;
-
-    if (amenity === "hospital") return "Hospital";
-    if (amenity === "doctors") return "Doctor / medical practice";
-    if (amenity === "clinic") return "Clinic";
-
-    return "Healthcare facility";
-  }
-
-  function getAddress(place) {
-    const tags = place.tags || {};
-    return [
-      tags["addr:street"],
-      tags["addr:suburb"],
-      tags["addr:city"]
-    ].filter(Boolean).join(", ") || "Address not listed";
-  }
-
-  function showResults(facilities) {
-    results.replaceChildren();
-
-    if (!facilities.length) {
-      const empty = document.createElement("article");
-      empty.className = "map-result";
-      empty.innerHTML =
-        "<h3>No facilities found</h3>" +
-        "<p>Try another area. OpenStreetMap data may be incomplete.</p>";
-      results.appendChild(empty);
-      return;
-    }
-
-    facilities.slice(0, 12).forEach(function (place) {
-      const coordinates = getCoordinates(place);
-      if (!coordinates) return;
-
-      const card = document.createElement("article");
-      card.className = "map-result";
-
-      const heading = document.createElement("h3");
-      heading.textContent = getName(place);
-
-      const description = document.createElement("p");
-      description.textContent =
-        getKind(place) + " · " + getAddress(place);
-
-      const link = document.createElement("a");
-      link.href =
-        "https://www.google.com/maps/dir/?api=1&destination=" +
-        coordinates[0] + "," + coordinates[1];
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = "Get Directions ↗";
-
-      card.append(heading, description, link);
-      results.appendChild(card);
-    });
-  }
-
-  async function loadFacilities(lat, lon) {
-    center = [lat, lon];
-    markers.clearLayers();
-    results.replaceChildren();
-
-    const selectedType = type.value;
-    let amenityFilter;
-
-    if (selectedType === "hospitals") {
-      amenityFilter = "hospital";
-    } else if (selectedType === "doctors") {
-      amenityFilter = "doctors|clinic";
-    } else {
-      amenityFilter = "hospital|doctors|clinic";
-    }
-
-    const query =
-      '[out:json][timeout:25];(' +
-      'node["amenity"~"^(' + amenityFilter + ')$"](around:7000,' + lat + ',' + lon + ');' +
-      'way["amenity"~"^(' + amenityFilter + ')$"](around:7000,' + lat + ',' + lon + ');' +
-      'relation["amenity"~"^(' + amenityFilter + ')$"](around:7000,' + lat + ',' + lon + ');' +
-      ');out center tags;';
-
-    status.textContent = "Searching for nearby healthcare facilities...";
-    locationButton.disabled = true;
-    searchButton.disabled = true;
-
-    try {
-      const response = await fetch(
-        "https://overpass-api.de/api/interpreter",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-          },
-          body: "data=" + encodeURIComponent(query)
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Nearby facility search is temporarily unavailable.");
-      }
-
-      const data = await response.json();
-      const facilities = (data.elements || [])
-        .filter(place => getCoordinates(place));
-
-      facilities.sort(function (a, b) {
-        const ca = getCoordinates(a);
-        const cb = getCoordinates(b);
-
-        const da = (ca[0] - lat) ** 2 + (ca[1] - lon) ** 2;
-        const db = (cb[0] - lat) ** 2 + (cb[1] - lon) ** 2;
-
-        return da - db;
-      });
-
-      facilities.forEach(function (place) {
-        const coordinates = getCoordinates(place);
-        const isHospital = place.tags?.amenity === "hospital";
-        const color = isHospital ? "#ff646e" : "#28c9b7";
-
-        const directions =
-          "https://www.google.com/maps/dir/?api=1&destination=" +
-          coordinates[0] + "," + coordinates[1];
-
-        const popupContent =
-          "<strong>" + escapeHTML(getName(place)) + "</strong><br>" +
-          escapeHTML(getKind(place)) + "<br>" +
-          escapeHTML(getAddress(place)) + "<br>" +
-          '<a target="_blank" rel="noopener noreferrer" href="' +
-          directions + '">Get Directions</a>';
-
-        L.circleMarker(coordinates, {
-          radius: 8,
-          color: color,
-          fillColor: color,
-          fillOpacity: 0.9,
-          weight: 2
-        }).addTo(markers).bindPopup(popupContent);
-      });
-
-      showResults(facilities);
-
-      status.textContent =
-        "Found " + facilities.length +
-        " mapped healthcare location(s) within approximately 7 km. " +
-        "Listings may be incomplete; call to confirm availability.";
-
-    } catch (error) {
-      status.textContent =
-        (error.message || "Could not load facilities.") +
-        " Check your internet or try Google Maps.";
-
-      results.innerHTML =
-        '<article class="map-result">' +
-        '<h3>Search temporarily unavailable</h3>' +
-        '<p>You can still search directly on Google Maps.</p>' +
-        '<a href="https://www.google.com/maps/search/hospitals+near+me/" ' +
-        'target="_blank" rel="noopener noreferrer">Hospitals near me ↗</a>' +
-        '</article>';
-
-    } finally {
-      locationButton.disabled = false;
-      searchButton.disabled = false;
-    }
-  }
-
-  function useMyLocation() {
-    if (!navigator.geolocation) {
-      status.textContent =
-        "Location is not supported by this browser. Search for an area instead.";
-      return;
-    }
-
-    status.textContent = "Requesting location permission...";
-
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-
-        center = [lat, lon];
-        map.setView(center, 13);
-
-        if (userMarker) map.removeLayer(userMarker);
-
-        userMarker = L.circleMarker(center, {
-          radius: 9,
-          color: "#071321",
-          fillColor: "#43d9e8",
-          fillOpacity: 1,
-          weight: 3
-        }).addTo(map).bindPopup("Your current location");
-
-        userMarker.openPopup();
-        input.value = "";
-        loadFacilities(lat, lon);
-      },
-      function (error) {
-        status.textContent =
-          (error.code === 1
-            ? "Location permission was denied."
-            : "Could not get your location.") +
-          " Search for a city or area manually. Location access requires localhost or HTTPS.";
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 12000,
-        maximumAge: 60000
-      }
+    card.style.setProperty(
+      "--mouse-x",
+      `${event.clientX - rect.left}px`
     );
-  }
 
-  async function searchArea() {
-    const area = input.value.trim();
-
-    if (!area) {
-      status.textContent = "Enter a city or area name first.";
-      input.focus();
-      return;
-    }
-
-    status.textContent = "Finding the area...";
-    searchButton.disabled = true;
-
-    try {
-      const response = await fetch(
-        "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
-        encodeURIComponent(area),
-        { headers: { Accept: "application/json" } }
-      );
-
-      if (!response.ok) {
-        throw new Error("Area search is temporarily unavailable.");
-      }
-
-      const places = await response.json();
-
-      if (!places.length) {
-        throw new Error("Area not found. Try a more specific name.");
-      }
-
-      const lat = Number(places[0].lat);
-      const lon = Number(places[0].lon);
-
-      center = [lat, lon];
-      map.setView(center, 13);
-
-      if (userMarker) {
-        map.removeLayer(userMarker);
-        userMarker = null;
-      }
-
-      loadFacilities(lat, lon);
-
-    } catch (error) {
-      status.textContent = error.message || "Area search failed.";
-    } finally {
-      searchButton.disabled = false;
-    }
-  }
-
-  locationButton.addEventListener("click", useMyLocation);
-  searchButton.addEventListener("click", searchArea);
-
-  input.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") searchArea();
+    card.style.setProperty(
+      "--mouse-y",
+      `${event.clientY - rect.top}px`
+    );
   });
+});
 
-  type.addEventListener("change", function () {
-    loadFacilities(center[0], center[1]);
-  });
-
-  // Open a default map centered on Delhi NCR.
-  setTimeout(function () {
-    map.invalidateSize();
-  }, 200);
-
-  // Load map data around the default area.
-  loadFacilities(center[0], center[1]);
-
-})();
-</script>
-
-<script>
+// Existing JeevanCare logout functionality
 document.getElementById("logoutBtn")?.addEventListener("click", function () {
   if (confirm("Are you sure you want to logout?")) {
     localStorage.removeItem("jeevancare_token");
